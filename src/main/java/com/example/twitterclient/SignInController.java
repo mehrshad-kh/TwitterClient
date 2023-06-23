@@ -1,14 +1,37 @@
 package com.example.twitterclient;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.Objects;
 
 public class SignInController {
     @FXML
-    private Label welcomeText;
+    private Label createAccountLabel;
 
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+    private void createAccountLabelClicked(MouseEvent event) {
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("sign-up-view.fxml")));
+            root = loader.load();
+        } catch (NullPointerException | IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText(e.toString());
+            alert.showAndWait();
+            e.printStackTrace();
+            return;
+        }
+        Scene scene = new Scene(root);
+        Stage currentStage = (Stage) createAccountLabel.getScene().getWindow();
+        currentStage.setScene(scene);
     }
 }

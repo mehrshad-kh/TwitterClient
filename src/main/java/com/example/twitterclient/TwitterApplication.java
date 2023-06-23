@@ -11,9 +11,16 @@ import java.util.Objects;
 
 public class TwitterApplication extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("sign-in-view.fxml")));
-        Parent root = loader.load();
+        Parent root;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            System.err.println("ERROR: An internal error occurred.");
+            e.printStackTrace();
+            return;
+        }
         Scene scene = new Scene(root);
         stage.setTitle("Twitter");
         stage.setScene(scene);
