@@ -19,10 +19,10 @@ public class SignInController {
     @FXML
     private void createAccountLabelClicked(MouseEvent event) {
         Parent root;
-        try {
             FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("sign-up-view.fxml")));
+        try {
             root = loader.load();
-        } catch (NullPointerException | IOException e) {
+        } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setContentText(e.toString());
