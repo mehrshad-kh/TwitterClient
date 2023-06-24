@@ -31,8 +31,9 @@ public class SignInController extends AbstractController {
             e.printStackTrace();
             return;
         }
-        AbstractController controller = loader.getController();
+        SignUpController controller = loader.getController();
         controller.setClient(getClient());
+        controller.populateCountriesComboBox();
         Scene scene = new Scene(root);
         Stage currentStage = (Stage) createAccountLabel.getScene().getWindow();
         currentStage.setScene(scene);

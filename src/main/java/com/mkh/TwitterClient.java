@@ -39,7 +39,7 @@ public class TwitterClient {
      * @return null if StatusRuntimeException occurs.
      */
     public Iterator<Country> retrieveCountries() {
-        logger.info("retrieveCountries");
+        logger.info("retrieveCountries was called by the client");
 
         Iterator<Country> countries = null;
         try {
