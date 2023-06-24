@@ -33,7 +33,7 @@ public class SignInController extends AbstractController {
         }
         SignUpController controller = loader.getController();
         controller.setClient(getClient());
-        controller.populateCountriesComboBox();
+        controller.populateCountriesComboBox(getClient());
         Scene scene = new Scene(root);
         Stage currentStage = (Stage) createAccountLabel.getScene().getWindow();
         currentStage.setScene(scene);

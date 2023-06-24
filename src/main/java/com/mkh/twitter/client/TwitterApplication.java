@@ -5,6 +5,7 @@ import com.mkh.twitter.Country;
 import com.mkh.twitter.client.controllers.AbstractController;
 import io.grpc.ManagedChannel;
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,11 +22,6 @@ public class TwitterApplication extends Application {
         client = new TwitterClient("localhost", 8080);
     }
 
-//    @Override
-//    public void init() {
-//        client = new TwitterClient("localhost", 8080);
-//    }
-
     @Override
     public void start(Stage primaryStage) {
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/com/mkh/twitter/client/sign-in-view.fxml")));
@@ -37,7 +33,18 @@ public class TwitterApplication extends Application {
             e.printStackTrace();
             return;
         }
-        System.out.println(((ManagedChannel) client.getChannel()).getState(false));
+
+        Task<Iterator<Country>> task = new Task<>() {
+            @Override
+            public Iterator<Country> call() {
+                Iterator<Country> countryIterator = client.retrieveCountries();
+                return countryIterator;
+            }
+        };
+
+        Thread daemonThread = new Thread(task);
+        daemonThread.setDaemon(true);
+        daemonThread.start();
 
         AbstractController controller = loader.getController();
         controller.setClient(client);

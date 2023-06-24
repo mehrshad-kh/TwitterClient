@@ -2,8 +2,10 @@ package com.mkh.twitter.client.controllers;
 
 import com.mkh.TwitterClient;
 import com.mkh.twitter.Country;
+import com.mkh.twitter.client.CountryRetrievalTask;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 
 import java.net.URL;
@@ -15,16 +17,9 @@ public class SignUpController extends AbstractController {
     private ComboBox<String> countriesComboBox;
 
     public void initialize() {
-        System.out.println("What the fuck, man?");
     }
 
-    public void populateCountriesComboBox() {
-        System.out.println("What the fuck?");
-        Iterator<Country> countries = getClient().retrieveCountries();
-        while (countries.hasNext()) {
-            Country country = countries.next();
-            System.out.println(country.getNiceName());
-            countriesComboBox.getItems().add(country.getNiceName());
-        }
+    public void populateCountriesComboBox(TwitterClient client) {
+        CountryRetrievalTask task = new CountryRetrievalTask(client);
     }
 }
