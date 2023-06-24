@@ -14,10 +14,6 @@ public class SignUpController extends AbstractController {
     @FXML
     private ComboBox<String> countriesComboBox;
 
-//    public SignUpController(TwitterClient client) {
-//        setClient(client);
-//    }
-
     public void initialize() {
         System.out.println("What the fuck, man?");
     }
