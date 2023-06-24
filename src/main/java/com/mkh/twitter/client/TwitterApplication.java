@@ -1,6 +1,7 @@
 package com.mkh.twitter.client;
 
 import com.mkh.TwitterClient;
+import com.mkh.twitter.client.controllers.AbstractController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +14,7 @@ import java.util.Objects;
 public class TwitterApplication extends Application {
     @Override
     public void start(Stage stage) {
-        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("sign-in-view.fxml")));
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/com/mkh/twitter/client/sign-in-view.fxml")));
         Parent root;
         try {
             root = loader.load();
@@ -22,11 +23,13 @@ public class TwitterApplication extends Application {
             e.printStackTrace();
             return;
         }
+        TwitterClient client = new TwitterClient("localhost", 8080);
+        AbstractController controller = loader.getController();
+        controller.setClient(client);
         Scene scene = new Scene(root);
         stage.setTitle("Twitter");
         stage.setScene(scene);
         stage.show();
-        // TwitterClient client = new TwitterClient("localhost", 8080);
     }
 
     public static void main(String[] args) {

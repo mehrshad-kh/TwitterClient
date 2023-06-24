@@ -34,21 +34,18 @@ public class TwitterClient {
         this(channelBuilder.build());
     }
 
-    public ArrayList<Country> retrieveCountries() {
+    /**
+     *
+     * @return null if StatusRuntimeException occurs.
+     */
+    public Iterator<Country> retrieveCountries() {
         logger.info("retrieveCountries");
 
-        Iterator<Country> countryIterator = null;
+        Iterator<Country> countries = null;
         try {
-            countryIterator = blockingStub.retrieveCountries(MKEmpty.newBuilder().build());
+            countries = blockingStub.retrieveCountries(MKEmpty.newBuilder().build());
         } catch (StatusRuntimeException e) {
             logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
-        }
-
-        ArrayList<Country> countries = new ArrayList<>();
-        try {
-            countryIterator.forEachRemaining(countries::add);
-        } catch (NullPointerException e) {
-            return new ArrayList<>();
         }
 
         return countries;

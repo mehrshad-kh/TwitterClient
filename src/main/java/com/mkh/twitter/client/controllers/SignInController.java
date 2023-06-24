@@ -12,14 +12,15 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class SignInController {
+
+public class SignInController extends AbstractController {
     @FXML
     private Label createAccountLabel;
 
     @FXML
     private void createAccountLabelClicked(MouseEvent event) {
         Parent root;
-            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("sign-up-view.fxml")));
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/com/mkh/twitter/client/sign-up-view.fxml")));
         try {
             root = loader.load();
         } catch (IOException e) {
@@ -30,6 +31,8 @@ public class SignInController {
             e.printStackTrace();
             return;
         }
+        AbstractController controller = loader.getController();
+        controller.setClient(getClient());
         Scene scene = new Scene(root);
         Stage currentStage = (Stage) createAccountLabel.getScene().getWindow();
         currentStage.setScene(scene);
