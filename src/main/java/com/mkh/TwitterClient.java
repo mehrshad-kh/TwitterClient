@@ -9,7 +9,6 @@ import io.grpc.Channel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +31,11 @@ public class TwitterClient {
 
     public TwitterClient(ManagedChannelBuilder<?> channelBuilder) {
         this(channelBuilder.build());
+    }
+
+    // Temporary.
+    public Channel getChannel() {
+        return blockingStub.getChannel();
     }
 
     /**
