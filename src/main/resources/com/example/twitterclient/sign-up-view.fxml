@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.twitterclient.SignUpController">
    <children>
       <Label text="Sign Up" textFill="#57b4fc" VBox.vgrow="ALWAYS">
@@ -49,7 +48,7 @@
       <Separator orientation="VERTICAL" VBox.vgrow="ALWAYS" />
       <VBox VBox.vgrow="ALWAYS">
          <children>
-            <ComboBox VBox.vgrow="ALWAYS" />
+            <ComboBox fx:id="countriesComboBox" VBox.vgrow="ALWAYS" />
             <DatePicker VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
