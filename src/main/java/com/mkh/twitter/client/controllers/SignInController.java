@@ -1,4 +1,4 @@
-package com.mkh.twitterclient;
+package com.mkh.twitter.client.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

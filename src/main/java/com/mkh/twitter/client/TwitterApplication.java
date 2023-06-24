@@ -1,5 +1,6 @@
-package com.mkh.twitterclient;
+package com.mkh.twitter.client;
 
+import com.mkh.TwitterClient;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,6 +26,7 @@ public class TwitterApplication extends Application {
         stage.setTitle("Twitter");
         stage.setScene(scene);
         stage.show();
+        TwitterClient client = new TwitterClient("localhost", 8080);
     }
 
     public static void main(String[] args) {
