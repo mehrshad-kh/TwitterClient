@@ -35,7 +35,6 @@ public class TwitterClient {
     }
 
     /**
-     *
      * @return null if StatusRuntimeException occurs.
      */
     public Iterator<Country> retrieveCountries() {

@@ -1,6 +1,7 @@
 package com.mkh.twitter.client;
 
 import com.mkh.TwitterClient;
+import com.mkh.twitter.Country;
 import com.mkh.twitter.client.controllers.AbstractController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Objects;
 
 public class TwitterApplication extends Application {
@@ -26,6 +28,13 @@ public class TwitterApplication extends Application {
         TwitterClient client = new TwitterClient("localhost", 8080);
         AbstractController controller = loader.getController();
         controller.setClient(client);
+
+        Iterator<Country> countries = client.retrieveCountries();
+        while (countries.hasNext()) {
+            Country country = countries.next();
+            System.out.println(country.getNiceName());
+        }
+
         Scene scene = new Scene(root);
         stage.setTitle("Twitter");
         stage.setScene(scene);
