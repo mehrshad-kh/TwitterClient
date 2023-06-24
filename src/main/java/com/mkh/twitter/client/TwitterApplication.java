@@ -27,7 +27,7 @@ public class TwitterApplication extends Application {
 //    }
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage primaryStage) {
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/com/mkh/twitter/client/sign-in-view.fxml")));
         Parent root;
         try {
@@ -42,9 +42,9 @@ public class TwitterApplication extends Application {
         AbstractController controller = loader.getController();
         controller.setClient(client);
         Scene scene = new Scene(root);
-        stage.setTitle("Twitter");
-        stage.setScene(scene);
-        stage.show();
+        primaryStage.setTitle("Twitter");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public static void main(String[] args) {
