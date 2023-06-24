@@ -1,4 +1,4 @@
-package com.example.twitterclient;
+package com.mkh.twitterclient;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

@@ -1,8 +1,8 @@
-module com.example.twitterclient {
+module com.mkh.twitterclient {
     requires javafx.controls;
     requires javafx.fxml;
 
 
-    opens com.example.twitterclient to javafx.fxml;
-    exports com.example.twitterclient;
+    opens com.mkh.twitterclient to javafx.fxml;
+    exports com.mkh.twitterclient;
 }
