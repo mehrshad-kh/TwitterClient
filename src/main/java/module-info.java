@@ -1,4 +1,4 @@
-module com.mkh.twitterclient {
+module com.mkh.twitter.client {
     requires javafx.controls;
     requires javafx.fxml;
     requires protobuf.java;
@@ -10,5 +10,7 @@ module com.mkh.twitterclient {
     requires java.logging;
 
     opens com.mkh.twitter.client to javafx.fxml;
+    opens com.mkh.twitter.client.controllers to javafx.fxml;
     exports com.mkh.twitter.client;
+    exports com.mkh.twitter.client.controllers;
 }
