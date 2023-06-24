@@ -1,4 +1,4 @@
-package com.mkh.twitter.client;
+package com.mkh;
 
 import com.mkh.twitter.Country;
 import com.mkh.twitter.MKEmpty;

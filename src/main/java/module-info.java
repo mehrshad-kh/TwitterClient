@@ -9,6 +9,6 @@ module com.mkh.twitterclient {
     requires com.google.common;
     requires java.logging;
 
-    opens com.mkh.twitterclient to javafx.fxml;
-    exports com.mkh.twitterclient;
+    opens com.mkh.twitter.client to javafx.fxml;
+    exports com.mkh.twitter.client;
 }

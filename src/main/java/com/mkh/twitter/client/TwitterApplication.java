@@ -26,7 +26,7 @@ public class TwitterApplication extends Application {
         stage.setTitle("Twitter");
         stage.setScene(scene);
         stage.show();
-        TwitterClient client = new TwitterClient("localhost", 8080);
+        // TwitterClient client = new TwitterClient("localhost", 8080);
     }
 
     public static void main(String[] args) {
