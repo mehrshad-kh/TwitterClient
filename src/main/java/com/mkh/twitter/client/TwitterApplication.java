@@ -34,6 +34,7 @@ public class TwitterApplication extends Application {
             return;
         }
 
+        /*
         Task<Iterator<Country>> task = new Task<>() {
             @Override
             public Iterator<Country> call() {
@@ -45,6 +46,7 @@ public class TwitterApplication extends Application {
         Thread daemonThread = new Thread(task);
         daemonThread.setDaemon(true);
         daemonThread.start();
+         */
 
         AbstractController controller = loader.getController();
         controller.setClient(client);
