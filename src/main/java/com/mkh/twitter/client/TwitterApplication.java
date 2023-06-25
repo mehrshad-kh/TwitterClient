@@ -1,18 +1,14 @@
 package com.mkh.twitter.client;
 
 import com.mkh.TwitterClient;
-import com.mkh.twitter.Country;
 import com.mkh.twitter.client.controllers.AbstractController;
-import io.grpc.ManagedChannel;
 import javafx.application.Application;
-import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Objects;
 
 public class TwitterApplication extends Application {
@@ -33,6 +29,8 @@ public class TwitterApplication extends Application {
             e.printStackTrace();
             return;
         }
+
+        client.getMyCountries();
 
         /*
         Task<Iterator<Country>> task = new Task<>() {
@@ -57,6 +55,6 @@ public class TwitterApplication extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }

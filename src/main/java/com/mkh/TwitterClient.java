@@ -8,6 +8,7 @@ import com.mkh.twitter.TwitterGrpc.TwitterStub;
 import io.grpc.Channel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
+import io.grpc.stub.StreamObserver;
 
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -35,12 +36,30 @@ public class TwitterClient {
     /**
      * @return null if StatusRuntimeException occurs.
      */
-    public Iterator<Country> retrieveCountries() {
+    public Iterator<Country> getMyCountries() {
         logger.info("retrieveCountries was called by the client.");
 
         Iterator<Country> countries = null;
         try {
-            countries = blockingStub.retrieveCountries(MKEmpty.newBuilder().build());
+            // countries = blockingStub.retrieveCountries(MKEmpty.newBuilder().build());
+            StreamObserver<Country> responseObserver = new StreamObserver<Country>() {
+                @Override
+                public void onNext(Country country) {
+
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+
+                }
+
+                @Override
+                public void onCompleted() {
+
+                }
+            };
+            asyncStub.retrieveCountries(MKEmpty.newBuilder().build(), responseObserver);
+            System.out.println("After async call.");
         } catch (StatusRuntimeException e) {
             logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
         }

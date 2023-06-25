@@ -15,7 +15,7 @@ public class CountryRetrievalTask extends Task<Iterator<Country>> {
 
     @Override
     public Iterator<Country> call() throws Exception {
-        Iterator<Country> countryIterator = client.retrieveCountries();
+        Iterator<Country> countryIterator = client.getMyCountries();
 
         System.out.println(countryIterator.next().getNiceName());
 
@@ -25,5 +25,15 @@ public class CountryRetrievalTask extends Task<Iterator<Country>> {
 //        }
 
         return countryIterator;
+    }
+
+    @Override
+    public void failed() {
+        System.out.println("Task failed.");
+    }
+
+    @Override
+    public void succeeded() {
+        System.out.println("Task succeeded");
     }
 }
