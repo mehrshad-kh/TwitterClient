@@ -10,6 +10,7 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,14 +39,15 @@ public class TwitterClient {
      */
     public Iterator<Country> getMyCountries() {
         logger.info("retrieveCountries was called by the client.");
+        ArrayList<Country> countries = new ArrayList<>();
 
-        Iterator<Country> countries = null;
+        Iterator<Country> countryIterator = null;
         try {
-            // countries = blockingStub.retrieveCountries(MKEmpty.newBuilder().build());
-            StreamObserver<Country> responseObserver = new StreamObserver<Country>() {
+            // countryIterator = blockingStub.retrieveCountries(MKEmpty.newBuilder().build());
+            StreamObserver<Country> responseObserver = new StreamObserver<>() {
                 @Override
                 public void onNext(Country country) {
-
+                    countries.add(country);
                 }
 
                 @Override
@@ -64,6 +66,6 @@ public class TwitterClient {
             logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
         }
 
-        return countries;
+        return countryIterator;
     }
 }
