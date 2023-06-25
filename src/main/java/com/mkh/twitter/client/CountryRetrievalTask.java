@@ -1,6 +1,6 @@
 package com.mkh.twitter.client;
 
-import com.mkh.TwitterClient;
+import com.mkh.twitter.client.TwitterClient;
 import com.mkh.twitter.Country;
 import javafx.concurrent.Task;
 

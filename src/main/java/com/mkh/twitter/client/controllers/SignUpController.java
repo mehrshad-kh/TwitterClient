@@ -1,6 +1,6 @@
 package com.mkh.twitter.client.controllers;
 
-import com.mkh.TwitterClient;
+import com.mkh.twitter.client.TwitterClient;
 import com.mkh.twitter.Country;
 import com.mkh.twitter.client.CountryRetrievalTask;
 import javafx.collections.FXCollections;

@@ -1,6 +1,5 @@
 package com.mkh.twitter.client;
 
-import com.mkh.TwitterClient;
 import com.mkh.twitter.client.controllers.AbstractController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

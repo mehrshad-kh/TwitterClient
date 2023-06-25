@@ -1,6 +1,6 @@
 package com.mkh.twitter.client.controllers;
 
-import com.mkh.TwitterClient;
+import com.mkh.twitter.client.TwitterClient;
 
 public abstract class AbstractController {
     private TwitterClient client;
