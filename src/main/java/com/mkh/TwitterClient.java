@@ -20,7 +20,6 @@ public class TwitterClient {
     private final TwitterStub asyncStub;
 
     public TwitterClient(String host, int port) {
-        // this(Grpc.newChannelBuilder(host + port, InsecureChannelCredentials.create()).build());
         this(ManagedChannelBuilder.forAddress(host, port).usePlaintext());
     }
 
@@ -33,16 +32,11 @@ public class TwitterClient {
         this(channelBuilder.build());
     }
 
-    // Temporary.
-    public Channel getChannel() {
-        return blockingStub.getChannel();
-    }
-
     /**
      * @return null if StatusRuntimeException occurs.
      */
     public Iterator<Country> retrieveCountries() {
-        logger.info("retrieveCountries was called by the client");
+        logger.info("retrieveCountries was called by the client.");
 
         Iterator<Country> countries = null;
         try {

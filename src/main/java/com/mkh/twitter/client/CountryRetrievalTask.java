@@ -15,12 +15,15 @@ public class CountryRetrievalTask extends Task<Iterator<Country>> {
 
     @Override
     public Iterator<Country> call() throws Exception {
-        Iterator<Country> countries = client.retrieveCountries();
-        while (countries.hasNext()) {
-            Country country = countries.next();
-            System.out.println(country.getNiceName());
-        }
+        Iterator<Country> countryIterator = client.retrieveCountries();
 
-        return countries;
+        System.out.println(countryIterator.next().getNiceName());
+
+//        while (countryIterator.hasNext()) {
+//            Country country = countryIterator.next();
+//            System.out.println(country.getNiceName());
+//        }
+
+        return countryIterator;
     }
 }
