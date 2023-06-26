@@ -1,13 +1,16 @@
 package com.mkh.twitter.client;
 
+import com.mkh.twitter.Country;
 import com.mkh.twitter.client.controllers.AbstractController;
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Objects;
 
 public class TwitterApplication extends Application {
@@ -29,21 +32,19 @@ public class TwitterApplication extends Application {
             return;
         }
 
-        client.getMyCountries();
+        // client.getMyCountries();
 
-        /*
-        Task<Iterator<Country>> task = new Task<>() {
-            @Override
-            public Iterator<Country> call() {
-                Iterator<Country> countryIterator = client.retrieveCountries();
-                return countryIterator;
-            }
-        };
-
-        Thread daemonThread = new Thread(task);
-        daemonThread.setDaemon(true);
-        daemonThread.start();
-         */
+//        Task<Iterator<Country>> task = new Task<>() {
+//            @Override
+//            public Iterator<Country> call() {
+//                Iterator<Country> countryIterator = client.getMyCountries();
+//                return countryIterator;
+//            }
+//        };
+//
+//        Thread daemonThread = new Thread(task);
+//        daemonThread.setDaemon(true);
+//        daemonThread.start();
 
         AbstractController controller = loader.getController();
         controller.setClient(client);

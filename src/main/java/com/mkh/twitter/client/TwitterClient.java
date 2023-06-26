@@ -43,25 +43,29 @@ public class TwitterClient {
 
         Iterator<Country> countryIterator = null;
         try {
-            // countryIterator = blockingStub.retrieveCountries(MKEmpty.newBuilder().build());
-            StreamObserver<Country> responseObserver = new StreamObserver<>() {
-                @Override
-                public void onNext(Country country) {
-                    countries.add(country);
-                }
-
-                @Override
-                public void onError(Throwable throwable) {
-
-                }
-
-                @Override
-                public void onCompleted() {
-
-                }
-            };
-            asyncStub.retrieveCountries(MKEmpty.newBuilder().build(), responseObserver);
-            System.out.println("After async call.");
+            System.out.println("Before blocking call.");
+            countryIterator = blockingStub.retrieveCountries(MKEmpty.newBuilder().build());
+            System.out.println(countryIterator.next().getNiceName());
+            System.out.println("After blocking call.");
+//            StreamObserver<Country> responseObserver = new StreamObserver<>() {
+//                @Override
+//                public void onNext(Country country) {
+//                    System.out.println(country.getNiceName());
+//                    countries.add(country);
+//                }
+//
+//                @Override
+//                public void onError(Throwable throwable) {
+//
+//                }
+//
+//                @Override
+//                public void onCompleted() {
+//
+//                }
+//            };
+//            asyncStub.retrieveCountries(MKEmpty.newBuilder().build(), responseObserver);
+//             System.out.println("After async call.");
         } catch (StatusRuntimeException e) {
             logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
         }
