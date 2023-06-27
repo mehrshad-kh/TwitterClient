@@ -8,56 +8,38 @@ import com.mkh.twitter.client.CountryRetrievalTask;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.concurrent.WorkerStateEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Region;
-import javafx.util.Callback;
+import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 public class SignUpController extends AbstractController {
-    @FXML
-    private Button emailErrorButton;
-    @FXML
-    private ComboBox<Country> countriesComboBox;
-    @FXML
-    private ImageView imageView;
-    @FXML
-    private TextField emailTextField;
+    private final static Image exclamationmarkCirclFillImage
+            = new Image(String.valueOf(TwitterApplication.class.getResource("/images/exclamationmark.circle.fill.png")));
 
-    private static Image exclamationmarkCirclFillRedImage = new Image(String.valueOf(TwitterApplication.class.getResource("/images/exclamationmark.circle.fill.red.png")));
+    @FXML private ComboBox<Country> countriesComboBox;
+    @FXML private ImageView emailErrorImageView;
+    @FXML private ImageView phoneNumberErrorImageView;
+    @FXML private TextField emailTextField;
+    @FXML private TextField phoneNumberTextField;
 
     public void initialize() {
-        ImageView exclamationmarkCirclFillRedImageView = new ImageView(exclamationmarkCirclFillRedImage);
-        exclamationmarkCirclFillRedImageView.setFitWidth(20.0);
-        exclamationmarkCirclFillRedImageView.setFitHeight(20.0);
-        imageView.setImage(exclamationmarkCirclFillRedImage);
+        emailErrorImageView.setImage(exclamationmarkCirclFillImage);
+        emailTextField.focusedProperty().addListener(((observableValue, oldValue, newValue) -> {
+            if (oldValue && !newValue) {
+                emailErrorImageView.setVisible(!Pattern.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}", emailTextField.getText()));
+            }
+        }));
 
-        emailTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue,
-                                Boolean oldValue,
-                                Boolean newValue) {
-                if (oldValue && !newValue) {
-                    if (!Pattern.matches("^(.+)@(.+)$",
-                            emailTextField.getText())) {
-                        imageView.setVisible(true);
-                    } else {
-                        imageView.setVisible(false);
-                    }
-                }
+        phoneNumberErrorImageView.setImage(exclamationmarkCirclFillImage);
+        phoneNumberTextField.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (oldValue && !newValue) {
+                phoneNumberErrorImageView.setVisible(!Pattern.matches("(|\\+[\\d]{1,3}|0)[\\d]{10}", phoneNumberTextField.getText()));
             }
         });
     }

@@ -35,20 +35,27 @@
       <VBox VBox.vgrow="ALWAYS">
          <children>
             <TextField promptText="Username" />
-            <PasswordField promptText="Password" />
-            <PasswordField promptText="Confirm password" />
+            <PasswordField fx:id="passwordField" promptText="Password" />
+            <PasswordField fx:id="confirmPasswordField" promptText="Confirm password" />
          </children>
       </VBox>
       <Separator orientation="VERTICAL" VBox.vgrow="ALWAYS" />
       <VBox VBox.vgrow="ALWAYS">
          <children>
-            <HBox fx:id="exclamationmarkCirclFillRedImageView" VBox.vgrow="ALWAYS">
+            <HBox VBox.vgrow="ALWAYS">
                <children>
                   <TextField fx:id="emailTextField" promptText="Email" HBox.hgrow="ALWAYS" />
-                  <ImageView fx:id="imageView" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" visible="false" HBox.hgrow="ALWAYS" />
+                  <Separator HBox.hgrow="ALWAYS" />
+                  <ImageView fx:id="emailErrorImageView" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" visible="false" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <TextField promptText="Phone number (optional)" />
+            <HBox VBox.vgrow="ALWAYS">
+               <children>
+                  <TextField fx:id="phoneNumberTextField" promptText="Phone number (Optional)" HBox.hgrow="ALWAYS" />
+                  <Separator HBox.hgrow="ALWAYS" />
+                  <ImageView fx:id="phoneNumberErrorImageView" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" visible="false" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
          </children>
       </VBox>
       <Separator orientation="VERTICAL" VBox.vgrow="ALWAYS" />
