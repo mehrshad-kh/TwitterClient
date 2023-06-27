@@ -36,7 +36,13 @@
          <children>
             <TextField promptText="Username" />
             <PasswordField fx:id="passwordField" promptText="Password" />
-            <PasswordField fx:id="confirmPasswordField" promptText="Confirm password" />
+            <HBox VBox.vgrow="ALWAYS">
+               <children>
+                  <PasswordField fx:id="confirmPasswordField" promptText="Confirm password" HBox.hgrow="ALWAYS" />
+                  <Separator HBox.hgrow="ALWAYS" />
+                  <ImageView fx:id="confirmPasswordErrorImageView" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" visible="false" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
          </children>
       </VBox>
       <Separator orientation="VERTICAL" VBox.vgrow="ALWAYS" />

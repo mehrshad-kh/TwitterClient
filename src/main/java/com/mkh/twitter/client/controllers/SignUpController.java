@@ -23,8 +23,11 @@ public class SignUpController extends AbstractController {
             = new Image(String.valueOf(TwitterApplication.class.getResource("/images/exclamationmark.circle.fill.png")));
 
     @FXML private ComboBox<Country> countriesComboBox;
+    @FXML private ImageView confirmPasswordErrorImageView;
     @FXML private ImageView emailErrorImageView;
     @FXML private ImageView phoneNumberErrorImageView;
+    @FXML private PasswordField passwordField;
+    @FXML private PasswordField confirmPasswordField;
     @FXML private TextField emailTextField;
     @FXML private TextField phoneNumberTextField;
 
@@ -41,6 +44,14 @@ public class SignUpController extends AbstractController {
             if (oldValue && !newValue) {
                 phoneNumberErrorImageView.setVisible(!Pattern.matches("(|\\+[\\d]{1,3}|0)[\\d]{10}", phoneNumberTextField.getText()));
             }
+        });
+
+        confirmPasswordErrorImageView.setImage(exclamationmarkCirclFillImage);
+        confirmPasswordField.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (oldValue && !newValue) {
+                confirmPasswordErrorImageView.setVisible(!passwordField.getText().equals(confirmPasswordField.getText()));
+            }
+
         });
     }
 
