@@ -7,6 +7,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -41,7 +42,12 @@
       <Separator orientation="VERTICAL" VBox.vgrow="ALWAYS" />
       <VBox VBox.vgrow="ALWAYS">
          <children>
-            <TextField promptText="Email" />
+            <HBox VBox.vgrow="ALWAYS">
+               <children>
+                  <TextField fx:id="emailTextField" promptText="Email" HBox.hgrow="ALWAYS" />
+                  <ImageView fx:id="imageView" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" visible="false" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
             <TextField promptText="Phone number (optional)" />
          </children>
       </VBox>

@@ -1,6 +1,7 @@
 package com.mkh.twitter.client.controllers;
 
 import com.mkh.Utility;
+import com.mkh.twitter.client.TwitterApplication;
 import com.mkh.twitter.client.TwitterClient;
 import com.mkh.twitter.Country;
 import com.mkh.twitter.client.CountryRetrievalTask;
@@ -12,10 +13,10 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Region;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
@@ -24,12 +25,41 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 public class SignUpController extends AbstractController {
     @FXML
+    private Button emailErrorButton;
+    @FXML
     private ComboBox<Country> countriesComboBox;
+    @FXML
+    private ImageView imageView;
+    @FXML
+    private TextField emailTextField;
+
+    private static Image exclamationmarkCirclFillRedImage = new Image(String.valueOf(TwitterApplication.class.getResource("/images/exclamationmark.circle.fill.red.png")));
 
     public void initialize() {
+        ImageView exclamationmarkCirclFillRedImageView = new ImageView(exclamationmarkCirclFillRedImage);
+        exclamationmarkCirclFillRedImageView.setFitWidth(20.0);
+        exclamationmarkCirclFillRedImageView.setFitHeight(20.0);
+        imageView.setImage(exclamationmarkCirclFillRedImage);
+
+        emailTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue,
+                                Boolean oldValue,
+                                Boolean newValue) {
+                if (oldValue && !newValue) {
+                    if (!Pattern.matches("^(.+)@(.+)$",
+                            emailTextField.getText())) {
+                        imageView.setVisible(true);
+                    } else {
+                        imageView.setVisible(false);
+                    }
+                }
+            }
+        });
     }
 
     public void populateCountriesComboBox(TwitterClient client) {
