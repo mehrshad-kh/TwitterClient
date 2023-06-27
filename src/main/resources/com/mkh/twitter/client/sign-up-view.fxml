@@ -42,7 +42,7 @@
       <Separator orientation="VERTICAL" VBox.vgrow="ALWAYS" />
       <VBox VBox.vgrow="ALWAYS">
          <children>
-            <HBox VBox.vgrow="ALWAYS">
+            <HBox fx:id="exclamationmarkCirclFillRedImageView" VBox.vgrow="ALWAYS">
                <children>
                   <TextField fx:id="emailTextField" promptText="Email" HBox.hgrow="ALWAYS" />
                   <ImageView fx:id="imageView" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" visible="false" HBox.hgrow="ALWAYS" />
