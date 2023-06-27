@@ -16,5 +16,7 @@ module com.mkh.twitter.client {
     exports com.mkh.twitter.client;
     exports com.mkh.twitter.client.controllers;
     exports com.mkh.twitter to protobuf.java;
+    exports com.mkh;
+    opens com.mkh to javafx.fxml;
     // exports com.mkh.twitter;
 }

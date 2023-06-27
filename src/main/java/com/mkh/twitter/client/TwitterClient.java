@@ -39,14 +39,10 @@ public class TwitterClient {
      */
     public Iterator<Country> getMyCountries() {
         logger.info("retrieveCountries was called by the client.");
-        ArrayList<Country> countries = new ArrayList<>();
 
         Iterator<Country> countryIterator = null;
         try {
-            System.out.println("Before blocking call.");
             countryIterator = blockingStub.retrieveCountries(MKEmpty.newBuilder().build());
-            System.out.println(countryIterator.next().getNiceName());
-            System.out.println("After blocking call.");
 //            StreamObserver<Country> responseObserver = new StreamObserver<>() {
 //                @Override
 //                public void onNext(Country country) {
