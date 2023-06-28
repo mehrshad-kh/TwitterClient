@@ -5,6 +5,7 @@ import com.mkh.twitter.client.TwitterApplication;
 import com.mkh.twitter.client.TwitterClient;
 import com.mkh.twitter.Country;
 import com.mkh.twitter.client.CountryRetrievalTask;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -12,47 +13,53 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
 public class SignUpController extends AbstractController {
+    private final SimpleBooleanProperty emailIsCorrect = new SimpleBooleanProperty(true);
+    private final SimpleBooleanProperty phoneNumberIsCorrect = new SimpleBooleanProperty(true);
+    private final SimpleBooleanProperty passwordIsConfirmed = new SimpleBooleanProperty(true);
+
     private final static Image exclamationmarkCirclFillImage
             = new Image(String.valueOf(TwitterApplication.class.getResource("/images/exclamationmark.circle.fill.png")));
 
     @FXML private ComboBox<Country> countriesComboBox;
-    @FXML private ImageView confirmPasswordErrorImageView;
+    @FXML private ImageView passwordConfirmatioErrorImageView;
     @FXML private ImageView emailErrorImageView;
     @FXML private ImageView phoneNumberErrorImageView;
     @FXML private PasswordField passwordField;
     @FXML private PasswordField confirmPasswordField;
     @FXML private TextField emailTextField;
     @FXML private TextField phoneNumberTextField;
+    @FXML private TextField usernameTextField;
 
     public void initialize() {
         emailErrorImageView.setImage(exclamationmarkCirclFillImage);
         emailTextField.focusedProperty().addListener(((observableValue, oldValue, newValue) -> {
             if (oldValue && !newValue) {
-                emailErrorImageView.setVisible(!Pattern.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}", emailTextField.getText()));
+                emailIsCorrect.set(Pattern.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}", emailTextField.getText()));
             }
         }));
+        emailErrorImageView.visibleProperty().bind(emailIsCorrect.not());
 
         phoneNumberErrorImageView.setImage(exclamationmarkCirclFillImage);
         phoneNumberTextField.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
             if (oldValue && !newValue) {
-                phoneNumberErrorImageView.setVisible(!Pattern.matches("(|\\+[\\d]{1,3}|0)[\\d]{10}", phoneNumberTextField.getText()));
+                phoneNumberIsCorrect.set(Pattern.matches("(|\\+[\\d]{1,3}|0)[\\d]{10}", phoneNumberTextField.getText()));
             }
         });
+        phoneNumberErrorImageView.visibleProperty().bind(phoneNumberIsCorrect.not());
 
-        confirmPasswordErrorImageView.setImage(exclamationmarkCirclFillImage);
+        passwordConfirmatioErrorImageView.setImage(exclamationmarkCirclFillImage);
         confirmPasswordField.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
             if (oldValue && !newValue) {
-                confirmPasswordErrorImageView.setVisible(!passwordField.getText().equals(confirmPasswordField.getText()));
+                passwordIsConfirmed.set(passwordField.getText().equals(confirmPasswordField.getText()));
             }
-
         });
+        passwordConfirmatioErrorImageView.visibleProperty().bind(passwordIsConfirmed.not());
     }
 
     public void populateCountriesComboBox(TwitterClient client) {
@@ -101,6 +108,17 @@ public class SignUpController extends AbstractController {
             @Override
             public Country fromString(String s) {
                 return null;
+            }
+        });
+    }
+
+    public void doSomething() {
+        usernameTextField.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (oldValue && !newValue) {
+                if (usernameTextField.getText().isBlank()) {
+                    // usernameIsBlank = true;
+
+                }
             }
         });
     }
