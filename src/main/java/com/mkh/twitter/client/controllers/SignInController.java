@@ -21,7 +21,7 @@ public class SignInController extends AbstractController {
     @FXML
     private void createAccountLabelClicked(MouseEvent event) {
         Parent root;
-            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/com/mkh/twitter/client/sign-up-view.fxml")));
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/com/mkh/twitter/client/sign-up-view.fxml")));
         try {
             root = loader.load();
         } catch (IOException e) {
@@ -35,6 +35,7 @@ public class SignInController extends AbstractController {
 
         // loader.setControllerFactory((controllerClass) -> new SignUpController(getClient()));
         SignUpController controller = loader.getController();
+        controller.setClient(getClient());
         controller.populateCountriesComboBox(getClient());
         Scene scene = new Scene(root);
         Stage currentStage = (Stage) createAccountLabel.getScene().getWindow();

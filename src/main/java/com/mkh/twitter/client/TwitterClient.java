@@ -61,7 +61,6 @@ public class TwitterClient {
 //                }
 //            };
 //            asyncStub.retrieveCountries(MKEmpty.newBuilder().build(), responseObserver);
-//             System.out.println("After async call.");
         } catch (StatusRuntimeException e) {
             logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
         }
