@@ -8,6 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -31,8 +32,9 @@ public class SignInController extends AbstractController {
             e.printStackTrace();
             return;
         }
+
+        // loader.setControllerFactory((controllerClass) -> new SignUpController(getClient()));
         SignUpController controller = loader.getController();
-        controller.setClient(getClient());
         controller.populateCountriesComboBox(getClient());
         Scene scene = new Scene(root);
         Stage currentStage = (Stage) createAccountLabel.getScene().getWindow();

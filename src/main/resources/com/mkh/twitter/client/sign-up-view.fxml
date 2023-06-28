@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -34,7 +35,13 @@
       <Separator orientation="VERTICAL" VBox.vgrow="ALWAYS" />
       <VBox VBox.vgrow="ALWAYS">
          <children>
-            <TextField fx:id="usernameTextField" promptText="Username" />
+            <HBox VBox.vgrow="ALWAYS">
+               <children>
+                  <TextField fx:id="usernameTextField" promptText="Username" HBox.hgrow="ALWAYS" />
+                  <Separator HBox.hgrow="ALWAYS" />
+                  <ImageView fx:id="usernameErrorImageView" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
             <PasswordField fx:id="passwordField" promptText="Password" />
             <HBox VBox.vgrow="ALWAYS">
                <children>
@@ -69,6 +76,12 @@
          <children>
             <ComboBox fx:id="countriesComboBox" VBox.vgrow="ALWAYS" />
             <DatePicker VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
+      <Separator orientation="VERTICAL" VBox.vgrow="ALWAYS" />
+      <VBox VBox.vgrow="ALWAYS">
+         <children>
+            <Button fx:id="signUpButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#signUpButtonActioned" text="Sign up" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
    </children>

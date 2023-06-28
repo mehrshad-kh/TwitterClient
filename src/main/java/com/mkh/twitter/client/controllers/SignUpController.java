@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -26,10 +27,12 @@ public class SignUpController extends AbstractController {
     private final static Image exclamationmarkCirclFillImage
             = new Image(String.valueOf(TwitterApplication.class.getResource("/images/exclamationmark.circle.fill.png")));
 
+    @FXML private Button signUpButton;
     @FXML private ComboBox<Country> countriesComboBox;
-    @FXML private ImageView passwordConfirmatioErrorImageView;
     @FXML private ImageView emailErrorImageView;
+    @FXML private ImageView passwordConfirmatioErrorImageView;
     @FXML private ImageView phoneNumberErrorImageView;
+    @FXML private ImageView usernameErrorImageView;
     @FXML private PasswordField passwordField;
     @FXML private PasswordField confirmPasswordField;
     @FXML private TextField emailTextField;
@@ -37,6 +40,14 @@ public class SignUpController extends AbstractController {
     @FXML private TextField usernameTextField;
 
     public void initialize() {
+        passwordConfirmatioErrorImageView.setImage(exclamationmarkCirclFillImage);
+        confirmPasswordField.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (oldValue && !newValue) {
+                passwordIsConfirmed.set(passwordField.getText().equals(confirmPasswordField.getText()));
+            }
+        });
+        passwordConfirmatioErrorImageView.visibleProperty().bind(passwordIsConfirmed.not());
+
         emailErrorImageView.setImage(exclamationmarkCirclFillImage);
         emailTextField.focusedProperty().addListener(((observableValue, oldValue, newValue) -> {
             if (oldValue && !newValue) {
@@ -52,14 +63,6 @@ public class SignUpController extends AbstractController {
             }
         });
         phoneNumberErrorImageView.visibleProperty().bind(phoneNumberIsCorrect.not());
-
-        passwordConfirmatioErrorImageView.setImage(exclamationmarkCirclFillImage);
-        confirmPasswordField.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (oldValue && !newValue) {
-                passwordIsConfirmed.set(passwordField.getText().equals(confirmPasswordField.getText()));
-            }
-        });
-        passwordConfirmatioErrorImageView.visibleProperty().bind(passwordIsConfirmed.not());
     }
 
     public void populateCountriesComboBox(TwitterClient client) {
@@ -121,5 +124,10 @@ public class SignUpController extends AbstractController {
                 }
             }
         });
+    }
+
+    @FXML
+    public void signUpButtonActioned(ActionEvent event) {
+
     }
 }
