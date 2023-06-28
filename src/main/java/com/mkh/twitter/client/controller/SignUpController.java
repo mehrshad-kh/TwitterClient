@@ -40,14 +40,6 @@ public class SignUpController extends AbstractController {
     @FXML private TextField phoneNumberTextField;
     @FXML private TextField usernameTextField;
 
-    public SignUpController() {
-         super();
-    }
-
-    public SignUpController(TwitterClient client) {
-         super(client);
-    }
-
     public void initialize() {
         initializePasswordConfirmationCheck();
         initializeEmailCheck();

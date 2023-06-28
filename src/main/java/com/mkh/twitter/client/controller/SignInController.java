@@ -18,14 +18,6 @@ import java.util.Objects;
 public class SignInController extends AbstractController {
     @FXML private Label createAccountLabel;
 
-    public SignInController() {
-         super();
-    }
-
-    public SignInController(TwitterClient client) {
-         super(client);
-    }
-
     @FXML
     private void createAccountLabelClicked(MouseEvent event) {
         Parent root;
