@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -24,8 +25,7 @@ public class TwitterApplication extends Application {
         try {
             root = loader.load();
         } catch (IOException e) {
-            System.err.println("ERROR: An internal error occurred.");
-            e.printStackTrace();
+            displayAlert(e);
             return;
         }
 
@@ -51,5 +51,13 @@ public class TwitterApplication extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public static void displayAlert(Exception e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setContentText(e.toString());
+        alert.showAndWait();
+        e.printStackTrace();
     }
 }

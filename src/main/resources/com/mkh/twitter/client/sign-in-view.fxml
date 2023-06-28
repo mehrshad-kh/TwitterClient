@@ -20,7 +20,7 @@
       </Label>
       <TextField fx:id="usernameTextField" promptText="Username" VBox.vgrow="ALWAYS" />
       <PasswordField promptText="Password" />
-      <Button fx:id="signInButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Sign in" VBox.vgrow="ALWAYS" />
+      <Button fx:id="signInButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#signInButtonActioned" text="Sign in" VBox.vgrow="ALWAYS" />
       <Label fx:id="createAccountLabel" onMouseClicked="#createAccountLabelClicked" text="Don't have an account? Create one." textFill="#367aae" VBox.vgrow="ALWAYS" />
    </children>
    <padding>
