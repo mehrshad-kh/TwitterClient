@@ -41,18 +41,9 @@ public class SignInController extends AbstractController {
             return;
         }
 
-        // loader.setControllerFactory((controllerClass) -> new SignUpController(getClient()));
-
-        loader.setControllerFactory(new Callback<Class<?>, Object>() {
-            @Override
-            public Object call(Class<?> controllerClass) {
-                return new SignUpController(getClient());
-            }
-        });
-
         SignUpController controller = loader.getController();
-        // controller.setClient(getClient());
-        controller.populateCountriesComboBox(getClient());
+        controller.setClient(getClient());
+        controller.setUp();
         Scene scene = new Scene(root);
         Stage currentStage = (Stage) createAccountLabel.getScene().getWindow();
         currentStage.setScene(scene);

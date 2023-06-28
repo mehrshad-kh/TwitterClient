@@ -1,6 +1,5 @@
 package com.mkh.twitter.client;
 
-import com.mkh.twitter.client.TwitterClient;
 import com.mkh.twitter.Country;
 import javafx.concurrent.Task;
 
@@ -15,7 +14,7 @@ public class CountryRetrievalTask extends Task<Iterator<Country>> {
 
     @Override
     public Iterator<Country> call() throws Exception {
-        Iterator<Country> countryIterator = client.getMyCountries();
+        Iterator<Country> countryIterator = client.retrieveCountries();
         updateValue(countryIterator);
         return countryIterator;
     }
@@ -27,6 +26,6 @@ public class CountryRetrievalTask extends Task<Iterator<Country>> {
 
     @Override
     public void succeeded() {
-        System.out.println("Task succeeded");
+        System.out.println("Task succeeded.");
     }
 }

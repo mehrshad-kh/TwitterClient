@@ -23,6 +23,7 @@ public class SignUpController extends AbstractController {
     private final SimpleBooleanProperty emailIsCorrect = new SimpleBooleanProperty(true);
     private final SimpleBooleanProperty phoneNumberIsCorrect = new SimpleBooleanProperty(true);
     private final SimpleBooleanProperty passwordIsConfirmed = new SimpleBooleanProperty(true);
+    private final SimpleBooleanProperty usernameIsUnique = new SimpleBooleanProperty(true);
 
     private final static Image exclamationmarkCirclFillImage
             = new Image(String.valueOf(TwitterApplication.class.getResource("/images/exclamationmark.circle.fill.png")));
@@ -48,24 +49,34 @@ public class SignUpController extends AbstractController {
     }
 
     public void initialize() {
+        initializePasswordConfirmationCheck();
+        initializeEmailCheck();
+        initializePhoneNumberCheck();
+    }
+
+    private void initializePasswordConfirmationCheck() {
         passwordConfirmatioErrorImageView.setImage(exclamationmarkCirclFillImage);
-        confirmPasswordField.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+        confirmPasswordField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (oldValue && !newValue) {
                 passwordIsConfirmed.set(passwordField.getText().equals(confirmPasswordField.getText()));
             }
         });
         passwordConfirmatioErrorImageView.visibleProperty().bind(passwordIsConfirmed.not());
+    }
 
+    private void initializeEmailCheck() {
         emailErrorImageView.setImage(exclamationmarkCirclFillImage);
-        emailTextField.focusedProperty().addListener(((observableValue, oldValue, newValue) -> {
+        emailTextField.focusedProperty().addListener(((observable, oldValue, newValue) -> {
             if (oldValue && !newValue) {
                 emailIsCorrect.set(Pattern.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}", emailTextField.getText()));
             }
         }));
         emailErrorImageView.visibleProperty().bind(emailIsCorrect.not());
+    }
 
+    private void initializePhoneNumberCheck() {
         phoneNumberErrorImageView.setImage(exclamationmarkCirclFillImage);
-        phoneNumberTextField.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+        phoneNumberTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (oldValue && !newValue) {
                 phoneNumberIsCorrect.set(Pattern.matches("(|\\+[\\d]{1,3}|0)[\\d]{10}", phoneNumberTextField.getText()));
             }
@@ -73,8 +84,26 @@ public class SignUpController extends AbstractController {
         phoneNumberErrorImageView.visibleProperty().bind(phoneNumberIsCorrect.not());
     }
 
-    public void populateCountriesComboBox(TwitterClient client) {
-        CountryRetrievalTask task = new CountryRetrievalTask(client);
+    public void setUp() {
+        setUpUsernameCheck();
+        setUpCountriesComboBox();
+    }
+
+    private void setUpUsernameCheck() {
+        usernameErrorImageView.setImage(exclamationmarkCirclFillImage);
+        usernameTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (oldValue && !newValue && !usernameTextField.getText().isBlank()) {
+                    usernameIsUnique.set(getClient().isTakenUsername(usernameTextField.getText()));
+                }
+            }
+        });
+        usernameErrorImageView.visibleProperty().bind(usernameIsUnique.not());
+    }
+
+    private void setUpCountriesComboBox() {
+        CountryRetrievalTask task = new CountryRetrievalTask(getClient());
         task.valueProperty().addListener(new ChangeListener<Iterator<Country>>() {
             @Override
             public void changed(ObservableValue<? extends Iterator<Country>> observableValue,
@@ -87,24 +116,6 @@ public class SignUpController extends AbstractController {
         Thread daemonThread = new Thread(task);
         daemonThread.setDaemon(true);
         daemonThread.start();
-
-//        Callback<ListView<Country>, ListCell<Country>> callback = new Callback<ListView<Country>, ListCell<Country>>() {
-//            @Override
-//            public ListCell<Country> call(ListView<Country> countryListView) {
-//                return new ListCell<>() {
-//                    @Override
-//                    protected void updateItem(Country country, boolean empty) {
-//                        if (country == null || empty) {
-//                            setText(null);
-//                        } else {
-//                            setText(country.getNiceName());
-//                        }
-//                    }
-//                };
-//            }
-//        };
-//        countriesComboBox.setButtonCell(callback.call(null));
-//        countriesComboBox.setCellFactory(callback);
 
         countriesComboBox.setConverter(new StringConverter<Country>() {
             @Override
@@ -119,17 +130,6 @@ public class SignUpController extends AbstractController {
             @Override
             public Country fromString(String s) {
                 return null;
-            }
-        });
-    }
-
-    public void doSomething() {
-        usernameTextField.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (oldValue && !newValue) {
-                if (usernameTextField.getText().isBlank()) {
-                    // usernameIsBlank = true;
-
-                }
             }
         });
     }
