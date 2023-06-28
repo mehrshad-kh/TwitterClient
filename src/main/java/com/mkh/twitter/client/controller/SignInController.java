@@ -39,6 +39,7 @@ public class SignInController extends AbstractController {
         Scene scene = new Scene(root);
         Stage currentStage = (Stage) createAccountLabel.getScene().getWindow();
         currentStage.setScene(scene);
+        currentStage.centerOnScreen();
     }
 
     @FXML
