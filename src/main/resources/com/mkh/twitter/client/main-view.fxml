@@ -7,15 +7,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <SplitPane fx:id="splitPane" dividerPositions="0.1" minHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mkh.twitter.client.controller.MainController">
   <items>
       <VBox fx:id="leftVbox">
          <children>
-            <Button fx:id="profileButton" mnemonicParsing="false" text="Profile" VBox.vgrow="ALWAYS" />
-            <Button fx:id="homeButton" mnemonicParsing="false" text="Home" VBox.vgrow="ALWAYS" />
+            <Button fx:id="profileButton" mnemonicParsing="false" onAction="#profileButtonActioned" text="Profile" VBox.vgrow="ALWAYS" />
+            <Button fx:id="homeButton" mnemonicParsing="false" onAction="#homeButtonActioned" text="Home" VBox.vgrow="ALWAYS" />
             <Separator orientation="VERTICAL" VBox.vgrow="ALWAYS" />
-            <Button fx:id="newButton" mnemonicParsing="false" text="New" VBox.vgrow="ALWAYS" />
+            <Button fx:id="newButton" mnemonicParsing="false" onAction="#newButtonActioned" text="New" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
       <ScrollPane fitToHeight="true" fitToWidth="true">

@@ -2,9 +2,12 @@ package com.mkh.twitter.client.controller;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
+import javafx.scene.effect.Lighting;
 import javafx.scene.layout.VBox;
 
 public class MainController extends AbstractController {
@@ -50,5 +53,37 @@ public class MainController extends AbstractController {
     private void initializeProfileButton() {
         profileButton.prefWidthProperty().bind(leftVbox.widthProperty());
         profileButton.prefHeightProperty().bind(leftVbox.widthProperty());
+    }
+
+    @FXML
+    private void homeButtonActioned(ActionEvent event) {
+        setAndResetEffectsForButtons((Button) event.getSource());
+    }
+
+    @FXML
+    private void newButtonActioned(ActionEvent event) {
+        setAndResetEffectsForButtons((Button) event.getSource());
+    }
+
+    @FXML
+    private void profileButtonActioned(ActionEvent event) {
+        setAndResetEffectsForButtons((Button) event.getSource());
+    }
+
+    private void setAndResetEffectsForButtons(Button button) {
+        resetEffectsForAllButtons();
+        setEffect(button);
+    }
+
+    private void setEffect(Button button) {
+        button.setEffect(new Lighting());
+    }
+
+    private void resetEffectsForAllButtons() {
+        for (Node node: leftVbox.getChildren()) {
+            if (node instanceof Button button) {
+                button.setEffect(null);
+            }
+        }
     }
 }
