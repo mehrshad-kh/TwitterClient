@@ -2,12 +2,14 @@ package com.mkh.twitter.client;
 
 import com.mkh.twitter.Country;
 import com.mkh.twitter.client.controllers.AbstractController;
+import com.mkh.twitter.client.controllers.SignUpController;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -22,8 +24,8 @@ public class TwitterApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/com/mkh/twitter/client/sign-in-view.fxml")));
         Parent root;
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/com/mkh/twitter/client/sign-in-view.fxml")));
         try {
             root = loader.load();
         } catch (IOException e) {
@@ -31,8 +33,6 @@ public class TwitterApplication extends Application {
             e.printStackTrace();
             return;
         }
-
-        // client.getMyCountries();
 
 //        Task<Iterator<Country>> task = new Task<>() {
 //            @Override
@@ -45,6 +45,13 @@ public class TwitterApplication extends Application {
 //        Thread daemonThread = new Thread(task);
 //        daemonThread.setDaemon(true);
 //        daemonThread.start();
+
+//        loader.setControllerFactory(new Callback<Class<?>, Object>() {
+//            @Override
+//            public Object call(Class<?> controllerClass) {
+//                return new SignInController(getClient());
+//            }
+//        });
 
         AbstractController controller = loader.getController();
         controller.setClient(client);

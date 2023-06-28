@@ -1,5 +1,6 @@
 package com.mkh.twitter.client.controllers;
 
+import com.mkh.twitter.client.TwitterClient;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,8 +16,15 @@ import java.util.Objects;
 
 
 public class SignInController extends AbstractController {
-    @FXML
-    private Label createAccountLabel;
+    @FXML private Label createAccountLabel;
+
+    public SignInController() {
+        super();
+    }
+
+    public SignInController(TwitterClient client) {
+        super(client);
+    }
 
     @FXML
     private void createAccountLabelClicked(MouseEvent event) {
@@ -34,8 +42,16 @@ public class SignInController extends AbstractController {
         }
 
         // loader.setControllerFactory((controllerClass) -> new SignUpController(getClient()));
+
+        loader.setControllerFactory(new Callback<Class<?>, Object>() {
+            @Override
+            public Object call(Class<?> controllerClass) {
+                return new SignUpController(getClient());
+            }
+        });
+
         SignUpController controller = loader.getController();
-        controller.setClient(getClient());
+        // controller.setClient(getClient());
         controller.populateCountriesComboBox(getClient());
         Scene scene = new Scene(root);
         Stage currentStage = (Stage) createAccountLabel.getScene().getWindow();
