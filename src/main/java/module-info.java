@@ -11,10 +11,10 @@ module com.mkh.twitter.client {
     // requires com.google.protobuf;
 
     opens com.mkh.twitter.client to javafx.fxml;
-    opens com.mkh.twitter.client.controllers to javafx.fxml;
+    opens com.mkh.twitter.client.controller to javafx.fxml;
     // exports com.mkh;
     exports com.mkh.twitter.client;
-    exports com.mkh.twitter.client.controllers;
+    exports com.mkh.twitter.client.controller;
     exports com.mkh.twitter to protobuf.java;
     exports com.mkh;
     opens com.mkh to javafx.fxml;

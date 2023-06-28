@@ -1,4 +1,4 @@
-package com.mkh.twitter.client.controllers;
+package com.mkh.twitter.client.controller;
 
 import com.mkh.Utility;
 import com.mkh.twitter.client.TwitterApplication;
@@ -40,11 +40,11 @@ public class SignUpController extends AbstractController {
     @FXML private TextField usernameTextField;
 
     public SignUpController() {
-        super();
+         super();
     }
 
     public SignUpController(TwitterClient client) {
-        super(client);
+         super(client);
     }
 
     public void initialize() {

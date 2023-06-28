@@ -1,4 +1,4 @@
-package com.mkh.twitter.client.controllers;
+package com.mkh.twitter.client.controller;
 
 import com.mkh.twitter.client.TwitterClient;
 import javafx.fxml.FXML;
@@ -19,11 +19,11 @@ public class SignInController extends AbstractController {
     @FXML private Label createAccountLabel;
 
     public SignInController() {
-        super();
+         super();
     }
 
     public SignInController(TwitterClient client) {
-        super(client);
+         super(client);
     }
 
     @FXML

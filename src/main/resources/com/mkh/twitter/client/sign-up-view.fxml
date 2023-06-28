@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mkh.twitter.client.controllers.SignUpController">
+<VBox xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mkh.twitter.client.controller.SignUpController">
    <children>
       <Label text="Sign Up" textFill="#57b4fc" VBox.vgrow="ALWAYS">
          <font>

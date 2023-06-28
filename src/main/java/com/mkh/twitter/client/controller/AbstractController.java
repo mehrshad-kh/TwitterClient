@@ -1,4 +1,4 @@
-package com.mkh.twitter.client.controllers;
+package com.mkh.twitter.client.controller;
 
 import com.mkh.twitter.client.TwitterClient;
 
@@ -17,6 +17,7 @@ public abstract class AbstractController {
         return client;
     }
 
+    // Change to protected if possible.
     public void setClient(TwitterClient client) {
         this.client = client;
     }
