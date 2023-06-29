@@ -35,7 +35,6 @@ public class TwitterClient {
 
         boolean result = false;
         result = blockingStub.isTakenUsername(MKString.newBuilder().setValue(username).build()).getValue();
-
         return result;
     }
 
@@ -47,25 +46,14 @@ public class TwitterClient {
 
         Iterator<Country> countryIterator = null;
         countryIterator = blockingStub.retrieveCountries(MKEmpty.newBuilder().build());
-//            StreamObserver<Country> responseObserver = new StreamObserver<>() {
-//                @Override
-//                public void onNext(Country country) {
-//                    System.out.println(country.getNiceName());
-//                    countries.add(country);
-//                }
-//
-//                @Override
-//                public void onError(Throwable throwable) {
-//
-//                }
-//
-//                @Override
-//                public void onCompleted() {
-//
-//                }
-//            };
-//            asyncStub.retrieveCountries(MKEmpty.newBuilder().build(), responseObserver);
-
         return countryIterator;
+    }
+    
+    public User performSignIn(String username, String password) throws StatusRuntimeException {
+        User user = User.newBuilder().setUsername(username).setPassword(password).build();
+
+        User signedInUser = blockingStub.signIn(user);
+
+        return signedInUser;
     }
 }
