@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.VBox?>
@@ -16,6 +15,6 @@
             <Button fx:id="newButton" mnemonicParsing="false" onAction="#newButtonActioned" text="New" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
-      <ScrollPane fx:id="scorllPane" fitToHeight="true" fitToWidth="true" />
+      <VBox fx:id="rightVbox" />
   </items>
 </SplitPane>

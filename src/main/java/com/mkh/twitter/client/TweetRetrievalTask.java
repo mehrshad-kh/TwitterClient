@@ -13,9 +13,11 @@ public class TweetRetrievalTask extends Task<Iterator<Tweet>> {
     }
     @Override
     public Iterator<Tweet> call() throws Exception {
-        Iterator<Tweet> countryIterator = client.getDailyBriefing(user);
-        updateValue(countryIterator);
-        return countryIterator;
+        System.out.println("call was called.");
+        Iterator<Tweet> tweetIterator = client.getDailyBriefing(user);
+        updateValue(tweetIterator);
+        System.out.println(tweetIterator.hasNext());
+        return tweetIterator;
     }
 
     @Override

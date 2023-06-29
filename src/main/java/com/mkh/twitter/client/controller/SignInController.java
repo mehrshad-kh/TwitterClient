@@ -85,6 +85,8 @@ public class SignInController extends AbstractController {
 
             MainController controller = loader.getController();
             controller.setClient(getClient());
+            controller.setUser(signedInUser);
+            controller.setUp();
             Scene scene = new Scene(root);
             Stage currentStage = (Stage) createAccountLabel.getScene().getWindow();
             currentStage.setScene(scene);
