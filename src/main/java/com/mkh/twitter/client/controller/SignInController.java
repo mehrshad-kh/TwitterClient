@@ -2,7 +2,9 @@ package com.mkh.twitter.client.controller;
 
 import com.mkh.twitter.User;
 import com.mkh.twitter.client.TwitterApplication;
+import com.mkh.twitter.client.TwitterClient;
 import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -17,7 +19,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
-
 
 public class SignInController extends AbstractController {
     @FXML private Button signInButton;
@@ -55,23 +56,16 @@ public class SignInController extends AbstractController {
             User signedInUser;
             try {
                 signedInUser = getClient().performSignIn(usernameTextField.getText(), passwordField.getText());
-            } catch (Exception e) {
+            } catch (StatusRuntimeException e) {
                 Status status = Status.fromThrowable(e);
                 if (status.getCode() == Status.UNAUTHENTICATED.getCode()) {
                     usernamePasswordErrorLabel.setText("Your username or password is incorrect. Please try again.");
                     usernamePasswordErrorLabel.setVisible(true);
                 } else {
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle(status.getCode().toString());
-                    alert.setContentText(status.getDescription());
+                    AbstractController.displayStatusAlert(status);
                 }
                 return;
             }
-
-            Alert alert = new Alert(AlertType.ERROR);
-            alert.setContentText(signedInUser.getId() + "|" + signedInUser.getFirstName() + "|" +
-                    signedInUser.getLastName() + "|" + signedInUser.getUsername() + "|" + signedInUser.getEmail());
-            alert.showAndWait();
 
             Parent root;
             FXMLLoader loader
@@ -79,14 +73,14 @@ public class SignInController extends AbstractController {
             try {
                 root = loader.load();
             } catch (IOException e) {
-                TwitterApplication.displayAlert(e);
+                displayAlert(e);
                 return;
             }
 
             MainController controller = loader.getController();
             controller.setClient(getClient());
             Scene scene = new Scene(root);
-            Stage currentStage = (Stage) createAccountLabel.getScene().getWindow();
+            Stage currentStage = findStage(createAccountLabel);
             currentStage.setScene(scene);
             currentStage.centerOnScreen();
         }
@@ -100,7 +94,7 @@ public class SignInController extends AbstractController {
         try {
             root = loader.load();
         } catch (IOException e) {
-            TwitterApplication.displayAlert(e);
+            displayAlert(e);
             return;
         }
 
@@ -110,5 +104,36 @@ public class SignInController extends AbstractController {
         Scene scene = new Scene(root);
         Stage currentStage = (Stage) createAccountLabel.getScene().getWindow();
         currentStage.setScene(scene);
+    }
+
+    public static void displaySignInView(Stage stage, TwitterClient client) {
+        Parent root;
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(SignInController.class.getResource("/com/mkh/twitter/client/sign-in-view.fxml")));
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            AbstractController.displayAlert(e);
+            return;
+        }
+
+//        Task<Iterator<Country>> task = new Task<>() {
+//            @Override
+//            public Iterator<Country> call() {
+//                Iterator<Country> countryIterator = client.getMyCountries();
+//                return countryIterator;
+//            }
+//        };
+//
+//        Thread daemonThread = new Thread(task);
+//        daemonThread.setDaemon(true);
+//        daemonThread.start();
+
+        AbstractController controller = loader.getController();
+        controller.setClient(client);
+        Scene scene = new Scene(root);
+        stage.setTitle("Twitter");
+        stage.setScene(scene);
+        stage.show();
+
     }
 }

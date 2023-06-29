@@ -8,7 +8,6 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 
 import java.util.Iterator;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TwitterClient {
@@ -33,9 +32,7 @@ public class TwitterClient {
     public boolean isTakenUsername(String username) throws StatusRuntimeException {
         logger.info("isTakenUsername() was called by the client.");
 
-        boolean result = false;
-        result = blockingStub.isTakenUsername(MKString.newBuilder().setValue(username).build()).getValue();
-        return result;
+        return blockingStub.isTakenUsername(MKString.newBuilder().setValue(username).build()).getValue();
     }
 
     /**
@@ -51,10 +48,11 @@ public class TwitterClient {
     
     public User performSignIn(String username, String password) throws StatusRuntimeException {
         User user = User.newBuilder().setUsername(username).setPassword(password).build();
+        return blockingStub.signIn(user);
+    }
 
-        User signedInUser = blockingStub.signIn(user);
-
-        return signedInUser;
+    public void performSignUp(User user) throws StatusRuntimeException {
+        blockingStub.signUp(user);
     }
 
     public Iterator<Tweet> retrieveTweets(User user) throws StatusRuntimeException {

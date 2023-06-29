@@ -1,10 +1,12 @@
 package com.mkh.twitter.client.controller;
 
 import com.mkh.Utility;
+import com.mkh.twitter.User;
 import com.mkh.twitter.client.TwitterApplication;
-import com.mkh.twitter.client.TwitterClient;
 import com.mkh.twitter.Country;
 import com.mkh.twitter.client.CountryRetrievalTask;
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.StringConverter;
@@ -30,6 +33,7 @@ public class SignUpController extends AbstractController {
 
     @FXML private Button signUpButton;
     @FXML private ComboBox<Country> countriesComboBox;
+    @FXML DatePicker datePicker;
     @FXML private ImageView emailErrorImageView;
     @FXML private ImageView passwordConfirmatioErrorImageView;
     @FXML private ImageView phoneNumberErrorImageView;
@@ -37,6 +41,8 @@ public class SignUpController extends AbstractController {
     @FXML private PasswordField passwordField;
     @FXML private PasswordField confirmPasswordField;
     @FXML private TextField emailTextField;
+    @FXML private TextField firstNameTextField;
+    @FXML private TextField lastNameTextField;
     @FXML private TextField phoneNumberTextField;
     @FXML private TextField usernameTextField;
 
@@ -70,7 +76,9 @@ public class SignUpController extends AbstractController {
         phoneNumberErrorImageView.setImage(exclamationmarkCirclFillImage);
         phoneNumberTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (oldValue && !newValue) {
-                phoneNumberIsCorrect.set(Pattern.matches("(|\\+[\\d]{1,3}|0)[\\d]{10}", phoneNumberTextField.getText()));
+                if (!phoneNumberTextField.getText().isBlank()) {
+                    phoneNumberIsCorrect.set(Pattern.matches("(|\\+[\\d]{1,3}|0)[\\d]{10}", phoneNumberTextField.getText()));
+                }
             }
         });
         phoneNumberErrorImageView.visibleProperty().bind(phoneNumberIsCorrect.not());
@@ -86,8 +94,10 @@ public class SignUpController extends AbstractController {
         usernameTextField.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (oldValue && !newValue && !usernameTextField.getText().isBlank()) {
-                    usernameIsUnique.set(getClient().isTakenUsername(usernameTextField.getText()));
+                if (oldValue && !newValue) {
+                    if (!usernameTextField.getText().isBlank()) {
+                        usernameIsUnique.set(!getClient().isTakenUsername(usernameTextField.getText()));
+                    }
                 }
             }
         });
@@ -128,6 +138,60 @@ public class SignUpController extends AbstractController {
 
     @FXML
     public void signUpButtonActioned(ActionEvent event) {
-        
+        if (hasBlankField()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Please fill all required elements.");
+            alert.showAndWait();
+            return;
+        }
+
+        if (hasIncorrectField()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Please pay attention to all the required conditions.");
+            alert.showAndWait();
+            return;
+        }
+
+        User user = User.newBuilder()
+                .setFirstName(firstNameTextField.getText())
+                .setLastName(lastNameTextField.getText())
+                .setUsername(usernameTextField.getText())
+                .setPassword(passwordField.getText())
+                .setEmail(emailTextField.getText())
+                .setCountryId(countriesComboBox.getValue().getId())
+                .setBirthdate(datePicker.getValue().toString())
+                .build();
+
+        if (!phoneNumberTextField.getText().isEmpty()) {
+            user.toBuilder().setPhoneNumber(phoneNumberTextField.getText());
+        }
+
+        try {
+            getClient().performSignUp(user);
+        } catch (StatusRuntimeException e) {
+            Status status = Status.fromThrowable(e);
+            AbstractController.displayStatusAlert(status);
+            return;
+        }
+
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setContentText("Your account was successfully created.");
+        alert.showAndWait();
+
+        SignInController.displaySignInView(findStage(emailTextField), getClient());
     }
+
+    private boolean hasBlankField() {
+        return (firstNameTextField.getText().isBlank() || lastNameTextField.getText().isBlank()
+                || usernameTextField.getText().isBlank() || passwordField.getText().isBlank()
+                || confirmPasswordField.getText().isBlank() || emailTextField.getText().isBlank()
+                || (phoneNumberTextField.getText().isBlank() && !phoneNumberTextField.getText().isEmpty())
+                || countriesComboBox.getValue() == null || datePicker.getValue() == null);
+    }
+
+    private boolean hasIncorrectField() {
+        return (emailIsCorrect.not().get() || phoneNumberIsCorrect.not().get()
+                || passwordIsConfirmed.not().get() || usernameIsUnique.not().get());
+    }
+
 }

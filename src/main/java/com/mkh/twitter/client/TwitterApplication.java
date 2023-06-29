@@ -1,6 +1,6 @@
 package com.mkh.twitter.client;
 
-import com.mkh.twitter.client.controller.AbstractController;
+import com.mkh.twitter.client.controller.SignInController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,44 +20,11 @@ public class TwitterApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Parent root;
-        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/com/mkh/twitter/client/sign-in-view.fxml")));
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            displayAlert(e);
-            return;
-        }
-
-//        Task<Iterator<Country>> task = new Task<>() {
-//            @Override
-//            public Iterator<Country> call() {
-//                Iterator<Country> countryIterator = client.getMyCountries();
-//                return countryIterator;
-//            }
-//        };
-//
-//        Thread daemonThread = new Thread(task);
-//        daemonThread.setDaemon(true);
-//        daemonThread.start();
-
-        AbstractController controller = loader.getController();
-        controller.setClient(client);
-        Scene scene = new Scene(root);
-        primaryStage.setTitle("Twitter");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        SignInController.displaySignInView(primaryStage, client);
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    public static void displayAlert(Exception e) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setContentText(e.toString());
-        alert.showAndWait();
-        e.printStackTrace();
-    }
 }

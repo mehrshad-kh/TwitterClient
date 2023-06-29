@@ -25,8 +25,8 @@
       </Label>
       <HBox VBox.vgrow="ALWAYS">
          <children>
-            <TextField promptText="First name" />
-            <TextField promptText="Last name" />
+            <TextField fx:id="firstNameTextField" promptText="First name" />
+            <TextField fx:id="lastNameTextField" promptText="Last name" />
          </children>
          <VBox.margin>
             <Insets />
@@ -75,7 +75,7 @@
       <VBox VBox.vgrow="ALWAYS">
          <children>
             <ComboBox fx:id="countriesComboBox" VBox.vgrow="ALWAYS" />
-            <DatePicker VBox.vgrow="ALWAYS" />
+            <DatePicker fx:id="datePicker" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
       <Separator orientation="VERTICAL" VBox.vgrow="ALWAYS" />
