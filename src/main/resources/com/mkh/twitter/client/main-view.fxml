@@ -4,7 +4,6 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
 <SplitPane fx:id="splitPane" dividerPositions="0.1" minHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mkh.twitter.client.controller.MainController">
@@ -17,10 +16,6 @@
             <Button fx:id="newButton" mnemonicParsing="false" onAction="#newButtonActioned" text="New" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
-      <ScrollPane fitToHeight="true" fitToWidth="true">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-        </content>
-      </ScrollPane>
+      <ScrollPane fx:id="scorllPane" fitToHeight="true" fitToWidth="true" />
   </items>
 </SplitPane>

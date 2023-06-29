@@ -68,4 +68,53 @@ public class TwitterClient {
 
         return countryIterator;
     }
+    public Iterator<Tweet> retrieveTweets(User user) throws StatusRuntimeException {
+        logger.info("retrieveTweets() was called by the client.");
+
+        Iterator<Tweet> tweetIterator = null;
+        tweetIterator = blockingStub.retrieveTweets(user);
+        return tweetIterator;
+    }
+    public Iterator<Tweet>  getDailyBriefing(User user) throws StatusRuntimeException {
+        logger.info("getDailyBriefing() was called by the client.");
+
+        Iterator<Tweet> tweetIterator = null;
+        tweetIterator = blockingStub.getDailyBriefing(user);
+        return tweetIterator;
+    }
+    public Iterator<TweetPhoto> retrieveTweetPhoto(Tweet tweet) throws StatusRuntimeException {
+        logger.info("retrieveTweetPhoto() was called by the client.");
+        final  Iterator<MKFile>  fileIterator ;
+        Iterator<TweetPhoto> tweetPhoto = null;
+        fileIterator = blockingStub.retrieveTweetPhotos(tweet);
+        tweetPhoto = new Iterator<TweetPhoto>() {
+            @Override
+            public boolean hasNext() {
+                return fileIterator.hasNext();
+            }
+
+            @Override
+            public TweetPhoto next() {
+                MKFile file = fileIterator.next();
+                TweetPhoto tweetPhoto = TweetPhoto.newBuilder().setPhoto(file).setTweetId(tweet.getId()).build();
+                return tweetPhoto;
+            }
+        };
+        return tweetPhoto;
+    }
+    public User searchUser(String username) throws StatusRuntimeException {
+        logger.info("searchUser() was called by the client.");
+
+        Iterator<User> userIterator = null;
+        userIterator = blockingStub.searchUsers(MKString.newBuilder().setValue(username).build());
+        userIterator.hasNext();
+        return userIterator.next();
+    }
+    public ProfilePhoto retrieveProfilePhoto(User user) throws StatusRuntimeException {
+        logger.info("retrieveProfilePhoto() was called by the client.");
+
+        ProfilePhoto profilePhoto = null;
+        profilePhoto = blockingStub.retrieveProfilePhoto(user);
+        return profilePhoto;
+    }
 }
