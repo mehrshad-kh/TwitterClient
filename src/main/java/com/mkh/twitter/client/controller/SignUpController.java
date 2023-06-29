@@ -128,6 +128,6 @@ public class SignUpController extends AbstractController {
 
     @FXML
     public void signUpButtonActioned(ActionEvent event) {
-
+        
     }
 }
