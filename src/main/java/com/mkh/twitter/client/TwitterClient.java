@@ -71,24 +71,15 @@ public class TwitterClient {
         return tweetIterator;
     }
 
-    public Iterator<TweetPhoto> retrieveTweetPhoto(Tweet tweet) throws StatusRuntimeException {
+    public TweetPhoto retrieveTweetPhoto(Tweet tweet) throws StatusRuntimeException {
         logger.info("retrieveTweetPhoto() was called by the client.");
         final  Iterator<MKFile>  fileIterator ;
-        Iterator<TweetPhoto> tweetPhoto = null;
+        TweetPhoto tweetPhoto = null;
         fileIterator = blockingStub.retrieveTweetPhotos(tweet);
-        tweetPhoto = new Iterator<TweetPhoto>() {
-            @Override
-            public boolean hasNext() {
-                return fileIterator.hasNext();
-            }
-
-            @Override
-            public TweetPhoto next() {
-                MKFile file = fileIterator.next();
-                TweetPhoto tweetPhoto = TweetPhoto.newBuilder().setPhoto(file).setTweetId(tweet.getId()).build();
-                return tweetPhoto;
-            }
-        };
+        //just returning the first photo
+        if(fileIterator.hasNext()){
+            tweetPhoto = TweetPhoto.newBuilder().setPhoto(fileIterator.next()).build();
+        }
         return tweetPhoto;
     }
 
@@ -108,4 +99,32 @@ public class TwitterClient {
         profilePhoto = blockingStub.retrieveProfilePhoto(user);
         return profilePhoto;
     }
+    public int retrieveLikeCount(Tweet tweet) throws StatusRuntimeException {
+        logger.info("retrieveNumberOfLike() was called by the client.");
+
+        int numberOfLike = 0;
+        numberOfLike = blockingStub.retrieveLikeCount(tweet).getValue();
+        return numberOfLike;
+    }
+    public int retrieveRetweetCount(Tweet tweet) throws StatusRuntimeException {
+        logger.info("retrieveNumberOfRetweet() was called by the client.");
+
+        int numberOfRetweet = 0;
+        numberOfRetweet = blockingStub.retrieveRetweetCount(tweet).getValue();
+        return numberOfRetweet;
+    }
+    public int retrieveReplyCount(Tweet tweet) throws StatusRuntimeException {
+        logger.info("retrieveNumberOfReply() was called by the client.");
+
+        int numberOfReply = 0;
+        numberOfReply = blockingStub.retrieveReplyCount(tweet).getValue();
+        return numberOfReply;
+    }
+
+
+
+
+
+
+
 }

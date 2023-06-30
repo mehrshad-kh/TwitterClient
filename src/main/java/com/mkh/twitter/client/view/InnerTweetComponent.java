@@ -23,14 +23,14 @@ import javafx.scene.shape.Circle;
 public class InnerTweetComponent extends AnchorPane {
     private static final int PADDING = 10;
     private static final String BG_COLOR = "#FFFFFF";
-    private final TweetContent  tweetContent;
+    private final FullTweetContent fullTweetContent;
     private final Label name;
     private final Label username ;
     private final Label date;
     private final Circle profilePicture;
 
     public  InnerTweetComponent(User tweetSender, ProfilePhoto profilePhoto,  Tweet tweet, TweetPhoto tweetPhoto){
-        tweetContent = new TweetContent(tweet, tweetPhoto);
+        fullTweetContent = new FullTweetContent(tweet, tweetPhoto);
         name = new Label();
         date = new Label(timeDifference(tweet));
         username  = new Label();
@@ -39,7 +39,7 @@ public class InnerTweetComponent extends AnchorPane {
         profilePicture.setStroke(Color.web("#000000"));
         profilePicture.setFill(new ImagePattern(new Image(new ByteArrayInputStream(profilePhoto.getPhoto().getBytes().toByteArray()))));
         profilePicture.setStrokeWidth(1);
-        this.getChildren().addAll(name, username , date, profilePicture, tweetContent);
+        this.getChildren().addAll(name, username , date, profilePicture, fullTweetContent);
         this.setLocation();
 
         // bound the labels to the properties of the user object using string converters
@@ -76,9 +76,9 @@ public class InnerTweetComponent extends AnchorPane {
         AnchorPane.setTopAnchor(profilePicture, 10.0);
         AnchorPane.setLeftAnchor(profilePicture, 10.0);
 
-        AnchorPane.setTopAnchor(tweetContent, 40.0);
-        AnchorPane.setLeftAnchor(tweetContent, 60.0);
-        AnchorPane.setRightAnchor(tweetContent, 10.0);
+        AnchorPane.setTopAnchor(fullTweetContent, 40.0);
+        AnchorPane.setLeftAnchor(fullTweetContent, 60.0);
+        AnchorPane.setRightAnchor(fullTweetContent, 10.0);
     }
     public String timeDifference(Tweet tweet){
 

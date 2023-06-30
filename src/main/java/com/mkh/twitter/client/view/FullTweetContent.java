@@ -4,8 +4,6 @@ import com.mkh.twitter.Tweet;
 import com.mkh.twitter.TweetPhoto;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.control.*;
 import javafx.scene.shape.*;
 import javafx.scene.image.*;
 import javafx.scene.paint.*;
@@ -18,7 +16,7 @@ import javafx.scene.text.TextFlow;
 
 import java.io.ByteArrayInputStream;
 
-public class TweetContent extends StackPane {
+public class FullTweetContent extends StackPane {
     private static final String FONT_FAMILY = "Arial";
     private static final int FONT_SIZE = 14;
     private static final int PADDING = 10;
@@ -28,7 +26,7 @@ public class TweetContent extends StackPane {
     TextFlow textFlow; // changed from TextArea to TextFlow
     ImageView imageView;
 
-    public TweetContent(Tweet tweet, TweetPhoto tweetPhoto) {
+    public FullTweetContent(Tweet tweet, TweetPhoto tweetPhoto) {
         this.setPadding(new Insets(PADDING));
         this.setBackground(new Background(new BackgroundFill(Color.web(BG_COLOR), new CornerRadii(10), Insets.EMPTY)));
         this.setBorder(new Border(new BorderStroke(Color.web("#E1E8ED"), BorderStrokeStyle.SOLID, new CornerRadii(10), BorderWidths.DEFAULT)));
@@ -73,7 +71,7 @@ public class TweetContent extends StackPane {
             clip.setArcHeight(10);
             imageView.setClip(clip);
             // added some CSS styles to the image view
-            imageView.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
+            imageView.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.73), 10, 0, 0, 0);");
             this.getChildren().add(imageView); // add the image view to the stack pane
 
         }
