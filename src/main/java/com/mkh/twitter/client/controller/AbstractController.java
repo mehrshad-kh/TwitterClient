@@ -1,5 +1,6 @@
 package com.mkh.twitter.client.controller;
 
+import com.mkh.twitter.User;
 import com.mkh.twitter.client.TwitterClient;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
@@ -8,7 +9,8 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 public abstract class AbstractController {
-    private TwitterClient client;
+    private TwitterClient client = null;
+    private User user = null;
 
     protected TwitterClient getClient() {
         return client;
@@ -16,6 +18,14 @@ public abstract class AbstractController {
 
     public void setClient(TwitterClient client) {
         this.client = client;
+    }
+
+    protected User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public static void displayAlert(Exception e) {

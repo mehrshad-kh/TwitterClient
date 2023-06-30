@@ -26,7 +26,6 @@ import java.util.Objects;
 
 public class MainController extends AbstractController {
     private static final double dividerPosition = 0.1;
-    private  User user  ;
     private ObservableList<Tweet> tweets;
     @FXML
     private Button homeButton;
@@ -49,13 +48,6 @@ public class MainController extends AbstractController {
 
     public Button getHomeButton() {
         return homeButton;
-    }
-
-    public User getUser() {
-        return user;
-    }
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public void initialize() {
@@ -96,7 +88,7 @@ public class MainController extends AbstractController {
     }
 
     private void displayDailyBriefing() {
-        TweetRetrievalTask task = new TweetRetrievalTask(getClient(), user);
+        TweetRetrievalTask task = new TweetRetrievalTask(getClient(), getUser());
         task.valueProperty().addListener(new ChangeListener<Iterator<Tweet>>() {
             @Override
             public void changed(ObservableValue<? extends Iterator<Tweet>> observableValue,
@@ -155,6 +147,7 @@ public class MainController extends AbstractController {
         }
         AbstractController controller = loader.getController();
         controller.setClient(getClient());
+        controller.setUser(getUser());
         anchorPane.getChildren().clear();
         anchorPane.getChildren().setAll(profileAnchorPane.getChildren());
     }

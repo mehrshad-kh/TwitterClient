@@ -1,5 +1,6 @@
 package com.mkh.twitter.client;
 
+import com.google.protobuf.ByteString;
 import com.mkh.twitter.*;
 import com.mkh.twitter.TwitterGrpc.TwitterBlockingStub;
 import com.mkh.twitter.TwitterGrpc.TwitterStub;
@@ -7,6 +8,10 @@ import io.grpc.Channel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
@@ -61,6 +66,22 @@ public class TwitterClient {
         Iterator<Tweet> tweetIterator = null;
         tweetIterator = blockingStub.retrieveTweets(user);
         return tweetIterator;
+    }
+
+    public void performSubmitHeaderPhoto(File file, User user) throws IOException, StatusRuntimeException {
+        logger.info("performSubmitHeaderPhoto() was called by the client.");
+
+        byte[] bytes = Files.readAllBytes(file.toPath());
+        String extension = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+        MKFile mkfile = MKFile.newBuilder()
+                .setBytes(ByteString.copyFrom(bytes))
+                .setExtension(extension)
+                .build();
+        HeaderPhoto headerPhoto = HeaderPhoto.newBuilder()
+                .setPhoto(mkfile)
+                .setUserId(user.getId())
+                .build();
+         blockingStub.submitHeaderPhoto(headerPhoto);
     }
 
     public Iterator<Tweet>  getDailyBriefing(User user) throws StatusRuntimeException {
