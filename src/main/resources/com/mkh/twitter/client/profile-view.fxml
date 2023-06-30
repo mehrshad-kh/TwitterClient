@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mkh.twitter.client.controller.ProfileController">
+   <children>
+      <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox VBox.vgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS" />
+                  <HBox VBox.vgrow="ALWAYS">
+                     <children>
+                        <Separator HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" text="Upload Header Photo" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox VBox.vgrow="ALWAYS">
+               <children>
+                  <HBox VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS" />
+                              <Button mnemonicParsing="false" text="Upload Profile Photo" VBox.vgrow="ALWAYS" />
+                              <Separator orientation="VERTICAL" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <HBox VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <TextField editable="false" promptText="First name" HBox.hgrow="ALWAYS" />
+                                    <TextField editable="false" promptText="Last name" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <TextField editable="false" promptText="Username" VBox.vgrow="ALWAYS" />
+                              <TextField editable="false" promptText="Email" VBox.vgrow="ALWAYS" />
+                              <TextField editable="false" promptText="Phone number" VBox.vgrow="ALWAYS" />
+                              <TextField editable="false" promptText="Birthdate" VBox.vgrow="ALWAYS" />
+                              <TextField promptText="Bio" VBox.vgrow="ALWAYS" />
+                              <TextField promptText="Location" VBox.vgrow="ALWAYS" />
+                              <TextField promptText="Website" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

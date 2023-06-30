@@ -10,13 +10,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
 import javafx.scene.effect.Lighting;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class MainController extends AbstractController {
     private static final double dividerPosition = 0.1;
@@ -34,8 +40,9 @@ public class MainController extends AbstractController {
     @FXML
     private Button profileButton;
 
-    @FXML
-    private VBox rightVbox;
+//    @FXML
+//    private VBox rightVbox;
+    @FXML private AnchorPane anchorPane;
 
     @FXML
     private SplitPane splitPane;
@@ -123,8 +130,6 @@ public class MainController extends AbstractController {
 
     }
 
-
-
     @FXML
     private void homeButtonActioned(ActionEvent event) {
         setAndResetEffectsForButtons((Button) event.getSource());
@@ -139,6 +144,19 @@ public class MainController extends AbstractController {
     @FXML
     private void profileButtonActioned(ActionEvent event) {
         setAndResetEffectsForButtons((Button) event.getSource());
+
+        AnchorPane profileAnchorPane;
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(SignInController.class.getResource("/com/mkh/twitter/client/profile-view.fxml")));
+        try {
+            profileAnchorPane = (AnchorPane) loader.load();
+        } catch (IOException e) {
+            AbstractController.displayAlert(e);
+            return;
+        }
+        AbstractController controller = loader.getController();
+        controller.setClient(getClient());
+        anchorPane.getChildren().clear();
+        anchorPane.getChildren().setAll(profileAnchorPane.getChildren());
     }
 
     private void setAndResetEffectsForButtons(Button button) {
