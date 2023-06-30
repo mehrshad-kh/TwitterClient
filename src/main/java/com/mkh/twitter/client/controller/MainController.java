@@ -4,7 +4,6 @@ import com.mkh.Utility;
 import com.mkh.twitter.Tweet;
 import com.mkh.twitter.User;
 import com.mkh.twitter.client.TweetRetrievalTask;
-import com.mkh.twitter.client.view.TweetComponent;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -40,6 +39,11 @@ public class MainController extends AbstractController {
 
     @FXML
     private SplitPane splitPane;
+
+    public Button getHomeButton() {
+        return homeButton;
+    }
+
     public User getUser() {
         return user;
     }
@@ -84,11 +88,7 @@ public class MainController extends AbstractController {
         profileButton.prefHeightProperty().bind(leftVbox.widthProperty());
     }
 
-    public void setUp() {
-        this.setUpDailyBriefing();
-    }
-
-    private void setUpDailyBriefing() {
+    private void displayDailyBriefing() {
         TweetRetrievalTask task = new TweetRetrievalTask(getClient(), user);
         task.valueProperty().addListener(new ChangeListener<Iterator<Tweet>>() {
             @Override
@@ -128,6 +128,7 @@ public class MainController extends AbstractController {
     @FXML
     private void homeButtonActioned(ActionEvent event) {
         setAndResetEffectsForButtons((Button) event.getSource());
+        // displayDailyBriefing();
     }
 
     @FXML
