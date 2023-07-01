@@ -9,19 +9,19 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <AnchorPane xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mkh.twitter.client.controller.ProfileController">
    <children>
       <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <VBox VBox.vgrow="ALWAYS">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS" />
+                  <ImageView fx:id="headerImageView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS" />
                   <HBox VBox.vgrow="ALWAYS">
                      <children>
                         <Separator HBox.hgrow="ALWAYS" />
-                        <Label fx:id="headerPhotoUploadResultLabel" text="Uploaded successfully." visible="false" HBox.hgrow="ALWAYS" />
-                        <Button mnemonicParsing="false" onAction="#uploadHeaderPhotoActioned" text="Upload Header Photo" HBox.hgrow="ALWAYS" />
+                        <Label fx:id="headerPhotoUploadResultLabel" text="Uploaded successfully." HBox.hgrow="ALWAYS" />
+                        <Button fx:id="reloadButton" mnemonicParsing="false" onAction="#reloadButtonActioned" text="Reload" HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" onAction="#uploadHeaderPhotoButtonActioned" text="Upload Header Photo" HBox.hgrow="ALWAYS" />
                      </children>
                   </HBox>
                </children>

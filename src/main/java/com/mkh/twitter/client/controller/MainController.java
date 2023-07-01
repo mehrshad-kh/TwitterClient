@@ -2,7 +2,6 @@ package com.mkh.twitter.client.controller;
 
 import com.mkh.Utility;
 import com.mkh.twitter.Tweet;
-import com.mkh.twitter.User;
 import com.mkh.twitter.client.TweetRetrievalTask;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,8 +11,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
 import javafx.scene.effect.Lighting;
@@ -145,9 +142,10 @@ public class MainController extends AbstractController {
             AbstractController.displayAlert(e);
             return;
         }
-        AbstractController controller = loader.getController();
+        ProfileController controller = loader.getController();
         controller.setClient(getClient());
         controller.setUser(getUser());
+        controller.setUp();
         anchorPane.getChildren().clear();
         anchorPane.getChildren().setAll(profileAnchorPane.getChildren());
     }

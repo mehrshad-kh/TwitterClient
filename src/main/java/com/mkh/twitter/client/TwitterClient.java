@@ -7,7 +7,9 @@ import com.mkh.twitter.TwitterGrpc.TwitterStub;
 import io.grpc.Channel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
+import javafx.scene.image.Image;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -60,12 +62,17 @@ public class TwitterClient {
         blockingStub.signUp(user);
     }
 
+    public Image performRetrieveHeaderPhoto(User user) throws StatusRuntimeException {
+        logger.info("performRetrieveHeaderPhoto() was called by the client.");
+
+        HeaderPhoto headerPhoto = blockingStub.retrieveHeaderPhoto(user);
+        return new Image(new ByteArrayInputStream(headerPhoto.getPhoto().getBytes().toByteArray()));
+    }
+
     public Iterator<Tweet> retrieveTweets(User user) throws StatusRuntimeException {
         logger.info("retrieveTweets() was called by the client.");
 
-        Iterator<Tweet> tweetIterator = null;
-        tweetIterator = blockingStub.retrieveTweets(user);
-        return tweetIterator;
+        return blockingStub.retrieveTweets(user);
     }
 
     public void performSubmitHeaderPhoto(File file, User user) throws IOException, StatusRuntimeException {
