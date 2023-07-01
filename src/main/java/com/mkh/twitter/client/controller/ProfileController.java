@@ -24,40 +24,82 @@ public class ProfileController extends AbstractController {
     private final static Image reloadImage
             = new Image(String.valueOf(TwitterApplication.class.getResource("/images/reload.png")));
 
-    @FXML private Button reloadButton;
+    @FXML private Button headerPhotoButton;
+    @FXML private Button profilePhotoButton;
+    @FXML private Button headerPhotoReloadButton;
+    @FXML private Button profilePhotoReloadButton;
     @FXML private ImageView headerImageView;
-    @FXML private ImageView reloadImageView;
-    @FXML private Label headerPhotoUploadResultLabel;
+    @FXML private ImageView profileImageView;
+    @FXML private ImageView headerReloadImageView;
+    @FXML private ImageView profileReloadImageView;
+    @FXML private Label headerPhotoResultLabel;
+    @FXML private Label profilePhotoResultLabel;
     @FXML private TextField firstNameTextField;
 
     public void initialize() {
-        initializeHeaderPhotoUploadResultLabel();
-        initializeReloadImageView();
-        initializeReloadButton();
+        initializeHeaderPhotoResultLabel();
+        initializeProfilePhotoResultLabel();
+        initializeHeaderReloadImageView();
+        initializeProfileReloadImageView();
+        initializeHeaderPhotoReloadButton();
+        initializeProfilePhotoReloadButton();
     }
 
-    private void initializeHeaderPhotoUploadResultLabel() {
-        headerPhotoUploadResultLabel.setVisible(false);
+    private void initializeHeaderPhotoResultLabel() {
+        headerPhotoResultLabel.setVisible(false);
     }
 
-    private void initializeReloadImageView() {
-        reloadImageView = new ImageView(reloadImage);
-        reloadImageView.setFitHeight(20);
-        reloadImageView.setFitWidth(20);
+    private void initializeProfilePhotoResultLabel() {
+        profilePhotoResultLabel.setVisible(false);
     }
 
-    private void initializeReloadButton() {
-        reloadButton.setText("");
-        reloadButton.setGraphic(reloadImageView);
+    private void initializeHeaderReloadImageView() {
+        headerReloadImageView = new ImageView(reloadImage);
+        headerReloadImageView.setFitHeight(20);
+        headerReloadImageView.setFitWidth(20);
+    }
+
+    private void initializeProfileReloadImageView() {
+        profileReloadImageView = new ImageView(reloadImage);
+        profileReloadImageView.setFitHeight(20);
+        profileReloadImageView.setFitWidth(20);
+    }
+
+    private void initializeHeaderPhotoReloadButton() {
+        headerPhotoReloadButton.setText("");
+        headerPhotoReloadButton.setGraphic(headerReloadImageView);
+    }
+
+    private void initializeProfilePhotoReloadButton() {
+        profilePhotoReloadButton.setText("");
+        profilePhotoReloadButton.setGraphic(profileReloadImageView);
     }
 
     public void setUp() {
-        reloadButton.fire();
+        setUpUserInfo();
+        setUpHeaderPhoto();
+        setUpProfilePhoto();
+    }
+
+    public void setUpUserInfo() {
+    }
+
+    private void setUpHeaderPhoto() {
+        headerPhotoReloadButton.fire();
+    }
+
+    private void setUpProfilePhoto() {
+        profilePhotoReloadButton.fire();
     }
 
     @FXML
-    private void reloadButtonActioned(ActionEvent event) {
+    private void headerPhotoReloadButtonActioned(ActionEvent event) {
         headerImageView.setImage((getClient().performRetrieveHeaderPhoto(getUser())));
+    }
+
+    @FXML
+    private void profilePhotoReloadButtonActioned(ActionEvent event) {
+        profileImageView.setImage(getClient().performRetrieveProfilePhoto(getUser()));
     }
 
     @FXML
@@ -107,8 +149,59 @@ public class ProfileController extends AbstractController {
             return;
         }
 
-        headerPhotoUploadResultLabel.setText("Uploaded successfully.");
-        headerPhotoUploadResultLabel.setTextFill(Color.GREEN);
-        headerPhotoUploadResultLabel.setVisible(true);
+        headerPhotoResultLabel.setText("Uploaded successfully.");
+        headerPhotoResultLabel.setTextFill(Color.GREEN);
+        headerPhotoResultLabel.setVisible(true);
+    }
+
+    public void uploadProfilePhotoButtonActioned(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Profile Photo");
+        fileChooser.getExtensionFilters()
+                .add(new ExtensionFilter("Image Files", "*.png", "*.jpeg", "*.gif"));
+        File file = fileChooser.showOpenDialog(findStage(firstNameTextField));
+        if (file == null) {
+            return;
+        }
+
+        Image image = new Image(file.toURI().toString());
+        if (image.getHeight() > Model.maxHeightForProfilePhotos || image.getWidth() > Model.maxWidthForProfilePhotos) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setContentText("Profile photo must have a maximum size of "
+                    + Model.maxHeightForProfilePhotos + " by " + Model.maxWidthForProfilePhotos + ".");
+            alert.showAndWait();
+            return;
+        } else if (file.length() > Model.maxSizeForProfilePhotos) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setContentText("Size of profile photo must be less than "
+                    + Model.maxSizeForProfilePhotos / Model.oneMegaByte
+                    + " MB.");
+            alert.showAndWait();
+            return;
+        }
+
+        try {
+            getClient().performSubmitProfilePhoto(file, getUser());
+        } catch (IndexOutOfBoundsException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Internal Error");
+            alert.setContentText("Is file path of the correct format?\n" +
+                    "Does it include file extension?");
+            alert.showAndWait();
+            return;
+        } catch (IOException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Internal Error");
+            alert.setContentText("Could not retrieve file path.");
+            alert.showAndWait();
+            return;
+        } catch (StatusRuntimeException e) {
+            displayStatusAlert(Status.fromThrowable(e));
+            return;
+        }
+
+        profilePhotoResultLabel.setText("Uploaded successfully.");
+        profilePhotoResultLabel.setTextFill(Color.GREEN);
+        profilePhotoResultLabel.setVisible(true);
     }
 }

@@ -70,6 +70,13 @@ public class TwitterClient {
         return new Image(new ByteArrayInputStream(headerPhoto.getPhoto().getBytes().toByteArray()));
     }
 
+    public Image performRetrieveProfilePhoto(User user) throws StatusRuntimeException {
+        logger.info("performRetrieveProfilePhoto() was called by the client.");
+
+        ProfilePhoto profilePhoto = blockingStub.retrieveProfilePhoto(user);
+        return new Image(new ByteArrayInputStream(profilePhoto.getPhoto().getBytes().toByteArray()));
+    }
+
     public Iterator<Tweet> retrieveTweets(User user) throws StatusRuntimeException {
         logger.info("retrieveTweets() was called by the client.");
 
@@ -86,10 +93,26 @@ public class TwitterClient {
                 .setExtension(extension)
                 .build();
         HeaderPhoto headerPhoto = HeaderPhoto.newBuilder()
-                .setPhoto(mkfile)
                 .setUserId(user.getId())
+                .setPhoto(mkfile)
                 .build();
          blockingStub.submitHeaderPhoto(headerPhoto);
+    }
+
+    public void performSubmitProfilePhoto(File file, User user) throws IOException, StatusRuntimeException {
+        logger.info("performSubmitProfilePhoto() was called by the client.");
+
+        byte[] bytes = Files.readAllBytes(file.toPath());
+        String extension = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+        MKFile mkfile = MKFile.newBuilder()
+                .setBytes(ByteString.copyFrom(bytes))
+                .setExtension(extension)
+                .build();
+        ProfilePhoto profilePhoto = ProfilePhoto.newBuilder()
+                .setUserId(user.getId())
+                .setPhoto(mkfile)
+                .build();
+        blockingStub.submitProfilePhoto(profilePhoto);
     }
 
     public Iterator<Tweet>  getDailyBriefing(User user) throws StatusRuntimeException {

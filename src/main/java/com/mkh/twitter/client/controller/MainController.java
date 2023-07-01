@@ -166,7 +166,7 @@ public class MainController extends AbstractController {
         AnchorPane profileAnchorPane;
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(SignInController.class.getResource("/com/mkh/twitter/client/profile-view.fxml")));
         try {
-            profileAnchorPane = (AnchorPane) loader.load();
+            profileAnchorPane = loader.load();
         } catch (IOException e) {
             AbstractController.displayAlert(e);
             return;
