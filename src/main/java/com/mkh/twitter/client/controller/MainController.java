@@ -11,18 +11,34 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.Lighting;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+
+import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MainController extends AbstractController {
     private static final double dividerPosition = 0.1;
+    // a constant for the maximum tweet length
+    public static final int MAX_TWEET_LENGTH = 280;
+
+    // a constant for the image view size
+    public static final int IMAGE_SIZE = 100;
+
     private ObservableList<Tweet> tweets;
     @FXML
     private Button homeButton;
@@ -127,7 +143,9 @@ public class MainController extends AbstractController {
 
     @FXML
     private void newButtonActioned(ActionEvent event) {
+
         setAndResetEffectsForButtons((Button) event.getSource());
+        setUpSendTweet();
     }
 
     @FXML
@@ -166,4 +184,80 @@ public class MainController extends AbstractController {
             }
         }
     }
+    public void setUpSendTweet(){
+        // create a new stage
+        Stage newStage = new Stage();
+
+        // create a text field to let the user write their tweet
+        TextField textField = new TextField();
+
+        // create a label to show the character count
+        Label label = new Label("0/" + MAX_TWEET_LENGTH);
+        //create an atomic reference to hold the path of the photo
+        AtomicReference<String> tweetPhotoPath = new AtomicReference<>();
+
+
+        // create an image view to show the photo preview
+        ImageView imageView = new ImageView();
+        imageView.setFitWidth(IMAGE_SIZE);
+        imageView.setFitHeight(IMAGE_SIZE);
+        // create a button to let the user upload a photo
+        Button uploadButton = new Button("Upload photo");
+        uploadButton.setOnAction(e -> {
+            // create a file chooser to let the user select an image file
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Select an image file");
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
+            );
+
+            // get the selected file from the file chooser
+            File selectedFile = fileChooser.showOpenDialog(newStage);
+            tweetPhotoPath.set(selectedFile.getAbsolutePath());
+            // if there is a selected file, load it as an image and set it to the image view
+            if (selectedFile != null) {
+                Image image = new Image(selectedFile.toURI().toString());
+                imageView.setImage(image);
+                // get the name of the selected file
+            }
+        });
+
+        // create another button to let the user close the window and add the tweet and photo to the text area
+        Button saveButton = new Button("Save");
+        saveButton.setOnAction(e -> {
+            // get the text from the text field
+            String tweet = textField.getText();
+            int id = getClient().sendTweet(tweet,getUser());
+            getClient().uploadTweetPhoto(String.valueOf(tweetPhotoPath), id) ;
+            // close the new stage
+            newStage.close();
+        });
+
+        // add a listener to the text field to update the label
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            // get the length of the new text
+            int length = newValue.length();
+
+            // if the length is greater than the maximum tweet length, truncate it
+            if (length > MAX_TWEET_LENGTH) {
+                textField.setText(oldValue);
+                return;
+            }
+
+            // update the label with the new length
+            label.setText(length + "/" + MAX_TWEET_LENGTH);
+        });
+
+        // create a vertical box to hold the text field, the label, the image view and the buttons
+        VBox root = new VBox(textField, label, imageView, uploadButton, saveButton);
+
+        // create the new scene and set its title
+        Scene newScene = new Scene(root, 300, 200);
+        newStage.setTitle("Add tweet");
+
+        // set the new scene and show the new stage
+        newStage.setScene(newScene);
+        newStage.show();
+    }
+
 }

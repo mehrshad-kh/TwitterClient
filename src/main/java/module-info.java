@@ -8,6 +8,7 @@ module com.mkh.twitter.client {
     requires grpc.protobuf;
     requires com.google.common;
     requires java.logging;
+    requires java.desktop;
     // requires com.google.protobuf;
 
     opens com.mkh.twitter.client to javafx.fxml;
