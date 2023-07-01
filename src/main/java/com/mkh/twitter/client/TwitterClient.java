@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
@@ -141,6 +142,38 @@ public class TwitterClient {
         numberOfReply = blockingStub.retrieveReplyCount(tweet).getValue();
         return numberOfReply;
     }
+    public int  sendTweet(String text, User user ) throws StatusRuntimeException {
+        logger.info("sendTweet() was called by the client.");
+        Tweet newTweet = Tweet.newBuilder()
+                .setText(text)
+                .setSenderId(user.getId())
+                .build();
+
+       Tweet sentTweet =  blockingStub.sendTweet(newTweet);
+       return sentTweet.getId();
+    }
+    public void uploadTweetPhoto(String path, int id) throws StatusRuntimeException {
+        logger.info("sendTweetPhoto() was called by the client.");
+        TweetPhoto tweetPhoto;
+        Path sourcePath = Paths.get(path);
+        byte[] bytes;
+
+        try {
+            bytes = Files.readAllBytes(sourcePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        MKFile file = MKFile.newBuilder()
+                .setBytes(ByteString.copyFrom(bytes)).setExtension("jpeg").build();
+
+        tweetPhoto = TweetPhoto.newBuilder()
+                .setPhoto(file).setTweetId(id).build();
+
+        blockingStub.uploadTweetPhoto(tweetPhoto);
+    }
+
+
 
 
 
