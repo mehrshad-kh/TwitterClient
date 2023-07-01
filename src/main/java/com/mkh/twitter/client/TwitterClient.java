@@ -115,16 +115,21 @@ public class TwitterClient {
         blockingStub.submitProfilePhoto(profilePhoto);
     }
 
-    public Iterator<Tweet>  getDailyBriefing(User user) throws StatusRuntimeException {
+    public Iterator<Tweet> getDailyBriefing(User user) throws StatusRuntimeException {
         logger.info("getDailyBriefing() was called by the client.");
 
-        Iterator<Tweet> tweetIterator = null;
-        tweetIterator = blockingStub.getDailyBriefing(user);
-        return tweetIterator;
+        return blockingStub.getDailyBriefing(user);
+    }
+
+    public boolean performHasTweetPhoto(Tweet tweet) throws StatusRuntimeException {
+        logger.info("performHasTweetPhoto() was called by the client.");
+
+        return blockingStub.hasTweetPhoto(tweet).getValue();
     }
 
     public TweetPhoto retrieveTweetPhoto(Tweet tweet) throws StatusRuntimeException {
         logger.info("retrieveTweetPhoto() was called by the client.");
+
         final  Iterator<MKFile>  fileIterator ;
         TweetPhoto tweetPhoto = null;
         fileIterator = blockingStub.retrieveTweetPhotos(tweet);
@@ -147,10 +152,9 @@ public class TwitterClient {
     public ProfilePhoto retrieveProfilePhoto(User user) throws StatusRuntimeException {
         logger.info("retrieveProfilePhoto() was called by the client.");
 
-        ProfilePhoto profilePhoto = null;
-        profilePhoto = blockingStub.retrieveProfilePhoto(user);
-        return profilePhoto;
+        return blockingStub.retrieveProfilePhoto(user);
     }
+
     public int retrieveLikeCount(Tweet tweet) throws StatusRuntimeException {
         logger.info("retrieveNumberOfLike() was called by the client.");
 
@@ -158,6 +162,7 @@ public class TwitterClient {
         numberOfLike = blockingStub.retrieveLikeCount(tweet).getValue();
         return numberOfLike;
     }
+
     public int retrieveRetweetCount(Tweet tweet) throws StatusRuntimeException {
         logger.info("retrieveNumberOfRetweet() was called by the client.");
 
@@ -165,6 +170,7 @@ public class TwitterClient {
         numberOfRetweet = blockingStub.retrieveRetweetCount(tweet).getValue();
         return numberOfRetweet;
     }
+
     public int retrieveReplyCount(Tweet tweet) throws StatusRuntimeException {
         logger.info("retrieveNumberOfReply() was called by the client.");
 

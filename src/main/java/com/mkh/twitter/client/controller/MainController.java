@@ -1,8 +1,13 @@
 package com.mkh.twitter.client.controller;
 
+import com.google.protobuf.ByteString;
 import com.mkh.Utility;
+import com.mkh.twitter.MKFile;
 import com.mkh.twitter.Tweet;
+import com.mkh.twitter.TweetPhoto;
+import com.mkh.twitter.User;
 import com.mkh.twitter.client.TweetRetrievalTask;
+import com.mkh.twitter.client.view.TweetComponent;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -27,6 +32,8 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
@@ -39,7 +46,6 @@ public class MainController extends AbstractController {
     // a constant for the image view size
     public static final int IMAGE_SIZE = 100;
 
-    private ObservableList<Tweet> tweets;
     @FXML
     private Button homeButton;
 
@@ -107,45 +113,51 @@ public class MainController extends AbstractController {
     }
 
     private void displayDailyBriefing() {
-        TweetRetrievalTask task = new TweetRetrievalTask(getClient(), getUser());
-        task.valueProperty().addListener(new ChangeListener<Iterator<Tweet>>() {
-            @Override
-            public void changed(ObservableValue<? extends Iterator<Tweet>> observableValue,
-                                Iterator<Tweet> oldValue,
-                                Iterator<Tweet> newValue) {
-                // System.out.println("changed() was called.");
-                // System.out.println("newValue.hasNext(): " + newValue.hasNext());
-                tweets = FXCollections.observableArrayList(Utility.Collections.convert(newValue));
-                // System.out.println("tweetIterator.hasNext(): " + tweets.hasNext());
-            }
-        });
-        Thread daemonThread = new Thread(task);
-        daemonThread.setDaemon(true);
-        daemonThread.start();
+//        TweetRetrievalTask task = new TweetRetrievalTask(getClient(), getUser());
+//        task.valueProperty().addListener(new ChangeListener<Iterator<Tweet>>() {
+//            @Override
+//            public void changed(ObservableValue<? extends Iterator<Tweet>> observableValue,
+//                                Iterator<Tweet> oldValue,
+//                                Iterator<Tweet> newValue) {
+//                tweets = FXCollections.observableArrayList(Utility.Collections.convert(newValue));
+//            }
+//        });
+//        Thread daemonThread = new Thread(task);
+//        daemonThread.setDaemon(true);
+//        daemonThread.start();
+        byte [] bytes = null;
+        Iterator<Tweet> tweetIterator = getClient().getDailyBriefing(getUser());
+        try {
+            File fi = new File("/Users/mehrshadkh./Downloads/reload.png");
+            bytes = Files.readAllBytes(fi.toPath());
+        } catch (Exception e){
+            System.out.println(e.getCause());
+        }
 
-        System.out.println("setUpDailyBriefing(), tweets.size(): " + tweets.size());
-//
-//        while (tweets.hasNext()) {
-//            Tweet tweet = tweets.next();
-//            TweetComponent tweetComponent = new TweetComponent(getClient().searchUser(Integer.toString(tweet.getSenderId())),
-//                    getClient().retrieveProfilePhoto(User.newBuilder().setId(tweet.getSenderId()).build()),
-//                    tweet,
-//                    getClient().retrieveTweetPhoto(tweet),
-//                    getClient().retrieveRetweetCount(tweet),
-//                    getClient().retrieveLikeCount(tweet),
-//                    getClient().retrieveReplyCount(tweet));
-//            System.out.println("salam");
-//            rightVbox.getChildren().add(tweetComponent);
-//
-//        }
-
+        while (tweetIterator.hasNext()) {
+            Tweet tweet = tweetIterator.next();
+            TweetComponent tweetComponent = new TweetComponent(getClient().searchUser(getUser().getUsername()),
+                    getClient().retrieveProfilePhoto(User.newBuilder().setId(tweet.getSenderId()).build()),
+                    tweet,
+//                    getClient().performHasTweetPhoto(tweet) ? getClient().retrieveTweetPhoto(tweet) : null,
+                    TweetPhoto.newBuilder().setPhoto(MKFile.newBuilder().setBytes(ByteString.copyFrom(bytes)).build()).build(),
+                    getClient().retrieveRetweetCount(tweet),
+                    getClient().retrieveLikeCount(tweet),
+                    getClient().retrieveReplyCount(tweet));
+            // anchorPane.getChildren().clear();
+            // anchorPane.getChildren().setAll(tweetComponent);
+            Scene newScene = new Scene(tweetComponent);
+            Stage newStage = new Stage();
+            newStage.setScene(newScene);
+            newStage.showAndWait();
+        }
     }
 
     @FXML
     private void homeButtonActioned(ActionEvent event) {
         Button source = (Button) event.getSource();
         setAndResetEffectsForButtons(source);
-        // displayDailyBriefing();
+        displayDailyBriefing();
     }
 
     @FXML
@@ -210,7 +222,7 @@ public class MainController extends AbstractController {
         return button.getEffect() != null;
     }
 
-    public void setUpSendTweet(){
+    public void setUpSendTweet() {
         // create a new stage
         Stage newStage = new Stage();
 
@@ -249,8 +261,8 @@ public class MainController extends AbstractController {
         });
 
         // create another button to let the user close the window and add the tweet and photo to the text area
-        Button saveButton = new Button("Save");
-        saveButton.setOnAction(e -> {
+        Button sendButton = new Button("Send");
+        sendButton.setOnAction(e -> {
             // get the text from the text field
             String tweet = textField.getText();
             int id = getClient().sendTweet(tweet,getUser());
@@ -275,11 +287,11 @@ public class MainController extends AbstractController {
         });
 
         // create a vertical box to hold the text field, the label, the image view and the buttons
-        VBox root = new VBox(textField, label, imageView, uploadButton, saveButton);
+        VBox root = new VBox(textField, label, imageView, uploadButton, sendButton);
 
         // create the new scene and set its title
         Scene newScene = new Scene(root, 300, 200);
-        newStage.setTitle("Add tweet");
+        newStage.setTitle("Send Tweet");
 
         // set the new scene and show the new stage
         newStage.setScene(newScene);

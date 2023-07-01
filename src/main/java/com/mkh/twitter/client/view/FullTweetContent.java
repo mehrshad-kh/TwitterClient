@@ -58,7 +58,7 @@ public class FullTweetContent extends StackPane {
 
         this.getChildren().add(textFlow); // add the text flow to the stack pane
 
-        if (tweetPhoto != null) {
+        if (tweetPhoto.getPhoto().getBytes().toByteArray().length != 0) {
             Image img = new Image(new ByteArrayInputStream(tweetPhoto.getPhoto().getBytes().toByteArray()));
             imageView = new ImageView(img);
             imageView.setSmooth(true);
@@ -73,10 +73,9 @@ public class FullTweetContent extends StackPane {
             // added some CSS styles to the image view
             imageView.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.73), 10, 0, 0, 0);");
             this.getChildren().add(imageView); // add the image view to the stack pane
-
         }
 
         StackPane.setAlignment(textFlow, Pos.BOTTOM_LEFT);// align the text flow to the top left of the stack pane
-        StackPane.setAlignment(imageView, Pos.CENTER); // align the image view to the bottom right of the stack pane
+        // StackPane.setAlignment(imageView, Pos.CENTER); // align the image view to the bottom right of the stack pane
     }
 }

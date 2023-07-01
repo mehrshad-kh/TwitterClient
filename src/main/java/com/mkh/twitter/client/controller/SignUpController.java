@@ -175,6 +175,7 @@ public class SignUpController extends AbstractController {
         }
 
         Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Success");
         alert.setContentText("Your account was successfully created.");
         alert.showAndWait();
 
