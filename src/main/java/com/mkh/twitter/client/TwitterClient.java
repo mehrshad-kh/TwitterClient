@@ -121,7 +121,7 @@ public class TwitterClient {
         return userIterator.next();
     }
 
-    public ProfilePhoto retrieveProfilePhoto(User user) throws StatusRuntimeException {
+    public ProfilePhoto performRetrieveProfilePhoto(User user) throws StatusRuntimeException {
         logger.info("retrieveProfilePhoto() was called by the client.");
 
         ProfilePhoto profilePhoto = null;
@@ -178,6 +178,20 @@ public class TwitterClient {
                 .setPhoto(file).setTweetId(id).build();
 
         blockingStub.uploadTweetPhoto(tweetPhoto);
+    }
+    public Iterator<User> performRetrieveFollowers(User user) throws StatusRuntimeException {
+        logger.info("getFollowers() was called by the client.");
+
+        Iterator<User> userIterator = null;
+        userIterator = blockingStub.retrieveFollowers(user);
+        return userIterator;
+    }
+    public Iterator<User> performRetrieveFollowees(User user) throws StatusRuntimeException {
+        logger.info("getFollowings() was called by the client.");
+
+        Iterator<User> userIterator = null;
+        userIterator = blockingStub.retrieveFollowees(user);
+        return userIterator;
     }
 
 
