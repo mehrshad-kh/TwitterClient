@@ -60,42 +60,42 @@
                               <HBox VBox.vgrow="ALWAYS">
                                  <children>
                                     <TextField fx:id="firstNameTextField" editable="false" promptText="First name" HBox.hgrow="ALWAYS" />
-                                    <TextField editable="false" promptText="Last name" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="lastNameTextField" editable="false" promptText="Last name" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
                               <HBox VBox.vgrow="ALWAYS">
                                  <children>
-                                    <TextField editable="false" promptText="Username" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="usernameTextField" editable="false" promptText="Username" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
                               <HBox VBox.vgrow="ALWAYS">
                                  <children>
-                                    <TextField editable="false" promptText="Email" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="emailTextField" editable="false" promptText="Email" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
                               <HBox VBox.vgrow="ALWAYS">
                                  <children>
-                                    <TextField editable="false" promptText="Phone number" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="phoneNumberTextField" editable="false" promptText="Phone number" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
                               <HBox VBox.vgrow="ALWAYS">
                                  <children>
-                                    <TextField editable="false" promptText="Birthdate" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="birthdateTextField" editable="false" promptText="Birthdate" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
                               <HBox VBox.vgrow="ALWAYS">
                                  <children>
-                                    <TextField promptText="Bio" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="bioTextField" promptText="Bio" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
                               <HBox VBox.vgrow="ALWAYS">
                                  <children>
-                                    <TextField promptText="Location" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="locationTextField" promptText="Location" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
                               <HBox VBox.vgrow="ALWAYS">
                                  <children>
-                                    <TextField promptText="Website" HBox.hgrow="ALWAYS" />
+                                    <TextField fx:id="websiteTextField" promptText="Website" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
                            </children>

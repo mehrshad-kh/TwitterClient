@@ -34,7 +34,15 @@ public class ProfileController extends AbstractController {
     @FXML private ImageView profileReloadImageView;
     @FXML private Label headerPhotoResultLabel;
     @FXML private Label profilePhotoResultLabel;
+    @FXML private TextField bioTextField;
+    @FXML private TextField birthdateTextField;
+    @FXML private TextField emailTextField;
     @FXML private TextField firstNameTextField;
+    @FXML private TextField lastNameTextField;
+    @FXML private TextField locationTextField;
+    @FXML private TextField phoneNumberTextField;
+    @FXML private TextField usernameTextField;
+    @FXML private TextField websiteTextField;
 
     public void initialize() {
         initializeHeaderPhotoResultLabel();
@@ -82,6 +90,15 @@ public class ProfileController extends AbstractController {
     }
 
     public void setUpUserInfo() {
+        firstNameTextField.setText(getUser().getFirstName());
+        lastNameTextField.setText(getUser().getLastName());
+        usernameTextField.setText(getUser().getUsername());
+        emailTextField.setText(getUser().getEmail());
+        phoneNumberTextField.setText(getUser().getPhoneNumber());
+        birthdateTextField.setText(getUser().getBirthdate());
+        bioTextField.setText(getUser().getBio());
+        locationTextField.setText(getUser().getLocation());
+        websiteTextField.setText(getUser().getWebsite());
     }
 
     private void setUpHeaderPhoto() {
