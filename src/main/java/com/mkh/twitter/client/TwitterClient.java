@@ -182,6 +182,13 @@ public class TwitterClient {
        Tweet sentTweet =  blockingStub.sendTweet(newTweet);
        return sentTweet.getId();
     }
+
+    public User performUpdateProfileInfo(User user) throws StatusRuntimeException {
+        logger.info("performUpdateProfileInfo() was called by the client.");
+
+        return blockingStub.updateProfileInfo(user);
+    }
+
     public void uploadTweetPhoto(String path, int id) throws StatusRuntimeException {
         logger.info("sendTweetPhoto() was called by the client.");
         TweetPhoto tweetPhoto;

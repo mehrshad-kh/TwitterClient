@@ -1,5 +1,6 @@
 package com.mkh.twitter.client.controller;
 
+import com.mkh.twitter.User;
 import com.mkh.twitter.client.TwitterApplication;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
@@ -26,6 +27,7 @@ public class ProfileController extends AbstractController {
 
     @FXML private Button headerPhotoButton;
     @FXML private Button profilePhotoButton;
+    @FXML private Button updateProfileInfoButton;
     @FXML private Button headerPhotoReloadButton;
     @FXML private Button profilePhotoReloadButton;
     @FXML private ImageView headerImageView;
@@ -33,6 +35,7 @@ public class ProfileController extends AbstractController {
     @FXML private ImageView headerReloadImageView;
     @FXML private ImageView profileReloadImageView;
     @FXML private Label headerPhotoResultLabel;
+    @FXML private Label profileInfoResultLabel;
     @FXML private Label profilePhotoResultLabel;
     @FXML private TextField bioTextField;
     @FXML private TextField birthdateTextField;
@@ -46,6 +49,7 @@ public class ProfileController extends AbstractController {
 
     public void initialize() {
         initializeHeaderPhotoResultLabel();
+        initializeProfileInfoResultLabel();
         initializeProfilePhotoResultLabel();
         initializeHeaderReloadImageView();
         initializeProfileReloadImageView();
@@ -55,6 +59,10 @@ public class ProfileController extends AbstractController {
 
     private void initializeHeaderPhotoResultLabel() {
         headerPhotoResultLabel.setVisible(false);
+    }
+
+    private void initializeProfileInfoResultLabel() {
+        profileInfoResultLabel.setVisible(false);
     }
 
     private void initializeProfilePhotoResultLabel() {
@@ -220,5 +228,28 @@ public class ProfileController extends AbstractController {
         profilePhotoResultLabel.setText("Uploaded successfully.");
         profilePhotoResultLabel.setTextFill(Color.GREEN);
         profilePhotoResultLabel.setVisible(true);
+    }
+
+    @FXML
+    private void updateProfileInfoButtonActioned(ActionEvent event) {
+        if (bioTextField.getText().length() > 150) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setContentText("Bio must be less than 150 characters long.");
+            alert.showAndWait();
+            return;
+        }
+
+
+        setUser(getUser().toBuilder()
+                .setBio(bioTextField.getText())
+                .setLocation(locationTextField.getText())
+                .setWebsite(websiteTextField.getText())
+                .build());
+
+        getClient().performUpdateProfileInfo(getUser());
+
+        profileInfoResultLabel.setText("Uploaded successfully.");
+        profileInfoResultLabel.setTextFill(Color.GREEN);
+        profileInfoResultLabel.setVisible(true);
     }
 }

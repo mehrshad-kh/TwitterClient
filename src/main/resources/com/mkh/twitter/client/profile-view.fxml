@@ -98,6 +98,17 @@
                                     <TextField fx:id="websiteTextField" promptText="Website" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
+                              <HBox VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <Separator HBox.hgrow="ALWAYS" />
+                                    <Label fx:id="profileInfoResultLabel" text="Updated successfully." HBox.hgrow="ALWAYS">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </Label>
+                                    <Button fx:id="updateProfileInfoButton" mnemonicParsing="false" onAction="#updateProfileInfoButtonActioned" style="-fx-background-color: #0492C2;" text="Update Profile Info" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                      </children>
