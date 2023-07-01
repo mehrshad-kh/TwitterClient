@@ -143,25 +143,35 @@ public class MainController extends AbstractController {
 
     @FXML
     private void homeButtonActioned(ActionEvent event) {
-        setAndResetEffectsForButtons((Button) event.getSource());
+        Button source = (Button) event.getSource();
+        setAndResetEffectsForButtons(source);
         // displayDailyBriefing();
     }
 
     @FXML
     private void newButtonActioned(ActionEvent event) {
-
-        setAndResetEffectsForButtons((Button) event.getSource());
+        Button source = (Button) event.getSource();
+        setAndResetEffectsForButtons(source);
         setUpSendTweet();
     }
 
     @FXML
     private void peopleButtonActioned(ActionEvent event) {
-        setAndResetEffectsForButtons((Button) event.getSource());
+        Button source = (Button) event.getSource();
+        setAndResetEffectsForButtons(source);
     }
 
     @FXML
     private void profileButtonActioned(ActionEvent event) {
-        setAndResetEffectsForButtons((Button) event.getSource());
+        Button source = (Button) event.getSource();
+        setAndResetEffectsForButtons(source);
+        // Problematic.
+        // Add to other methods as well.
+        /*
+        if (isButtonSelected(source)) {
+            return;
+        }
+         */
 
         AnchorPane profileAnchorPane;
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(SignInController.class.getResource("/com/mkh/twitter/client/profile-view.fxml")));
@@ -195,6 +205,11 @@ public class MainController extends AbstractController {
             }
         }
     }
+
+    private boolean isButtonSelected(Button button) {
+        return button.getEffect() != null;
+    }
+
     public void setUpSendTweet(){
         // create a new stage
         Stage newStage = new Stage();
