@@ -12,6 +12,7 @@
          <children>
             <Button fx:id="profileButton" mnemonicParsing="false" onAction="#profileButtonActioned" text="Profile" VBox.vgrow="ALWAYS" />
             <Button fx:id="homeButton" mnemonicParsing="false" onAction="#homeButtonActioned" text="Home" VBox.vgrow="ALWAYS" />
+            <Button fx:id="peopleButton" mnemonicParsing="false" onAction="#peopleButtonActioned" text="People" VBox.vgrow="ALWAYS" />
             <Separator orientation="VERTICAL" VBox.vgrow="ALWAYS" />
             <Button fx:id="newButton" mnemonicParsing="false" onAction="#newButtonActioned" text="New" VBox.vgrow="ALWAYS" />
          </children>

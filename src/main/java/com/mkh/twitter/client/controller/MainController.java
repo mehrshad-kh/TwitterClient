@@ -50,10 +50,10 @@ public class MainController extends AbstractController {
     private Button newButton;
 
     @FXML
+    private Button peopleButton;
+    @FXML
     private Button profileButton;
 
-//    @FXML
-//    private VBox rightVbox;
     @FXML private AnchorPane anchorPane;
 
     @FXML
@@ -82,6 +82,7 @@ public class MainController extends AbstractController {
     private void initializeButtons() {
         initializeHomeButton();
         initializeNewButton();
+        initializePeopleButton();
         initializeProfileButton();
     }
 
@@ -93,6 +94,11 @@ public class MainController extends AbstractController {
     private void initializeNewButton() {
         newButton.prefWidthProperty().bind(leftVbox.widthProperty());
         newButton.prefHeightProperty().bind(leftVbox.widthProperty());
+    }
+
+    private void initializePeopleButton() {
+        peopleButton.prefWidthProperty().bind(leftVbox.widthProperty());
+        peopleButton.prefHeightProperty().bind(leftVbox.widthProperty());
     }
 
     private void initializeProfileButton() {
@@ -146,6 +152,11 @@ public class MainController extends AbstractController {
 
         setAndResetEffectsForButtons((Button) event.getSource());
         setUpSendTweet();
+    }
+
+    @FXML
+    private void peopleButtonActioned(ActionEvent event) {
+        setAndResetEffectsForButtons((Button) event.getSource());
     }
 
     @FXML
