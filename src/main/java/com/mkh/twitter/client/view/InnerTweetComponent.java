@@ -86,6 +86,7 @@ public class InnerTweetComponent extends AnchorPane {
         String timestampString;
         timestampString = tweet.getDateCreated();
 
+
         // Convert the timestamp string to a LocalDateTime object
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
         LocalDateTime timestamp = LocalDateTime.parse(timestampString, formatter);

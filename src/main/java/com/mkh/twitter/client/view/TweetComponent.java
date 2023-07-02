@@ -21,11 +21,11 @@ import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
 public class TweetComponent extends AnchorPane {
-    private static final Image redHeartImage = new Image(String.valueOf(TwitterApplication.class.getResource("/images/heart_red.png")));
-    private static final Image grayHeartImage = new Image(String.valueOf(TwitterApplication.class.getResource("/images/heart_gray.png")));
+    private static final Image redHeartImage = new Image(String.valueOf(TwitterApplication.class.getResource("/images/heart.red.png")));
+    private static final Image grayHeartImage = new Image(String.valueOf(TwitterApplication.class.getResource("/images/heart.gray.png")));
     private static final Image quoteImage = new Image(String.valueOf(TwitterApplication.class.getResource("/images/quote.png")));
     private static final Image retImage = new Image(String.valueOf(TwitterApplication.class.getResource("/images/retweet.png")));
-    private static final Image dotImage = new Image(String.valueOf(TwitterApplication.class.getResource("/images/three_dot.png")));
+    private static final Image dotImage = new Image(String.valueOf(TwitterApplication.class.getResource("/images/three.dot.png")));
     private final InnerTweetComponent innerTweetComponent;
 
 

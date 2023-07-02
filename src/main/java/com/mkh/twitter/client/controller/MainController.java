@@ -11,7 +11,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -158,22 +157,6 @@ public class MainController extends AbstractController {
     @FXML
     private void peopleButtonActioned(ActionEvent event) {
         setAndResetEffectsForButtons((Button) event.getSource());
-
-        AnchorPane peopleParent;
-        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(SignInController.class.getResource("/com/mkh/twitter/client/people-view.fxml")));
-        try {
-            peopleParent = (AnchorPane) loader.load();
-        } catch (IOException e) {
-            AbstractController.displayAlert(e);
-            return;
-        }
-        PeopleController controller = loader.getController();
-        controller.setClient(getClient());
-        controller.setUser(getUser());
-        controller.setUp();
-        anchorPane.getChildren().clear();
-        anchorPane.getChildren().setAll(peopleParent.getChildren());
-
     }
 
     @FXML

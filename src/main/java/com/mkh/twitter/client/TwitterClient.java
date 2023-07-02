@@ -70,6 +70,13 @@ public class TwitterClient {
         return new Image(new ByteArrayInputStream(headerPhoto.getPhoto().getBytes().toByteArray()));
     }
 
+    public Image performRetrieveProfilePhoto(User user) throws StatusRuntimeException {
+        logger.info("performRetrieveProfilePhoto() was called by the client.");
+
+        ProfilePhoto profilePhoto = blockingStub.retrieveProfilePhoto(user);
+        return new Image(new ByteArrayInputStream(profilePhoto.getPhoto().getBytes().toByteArray()));
+    }
+
     public Iterator<Tweet> retrieveTweets(User user) throws StatusRuntimeException {
         logger.info("retrieveTweets() was called by the client.");
 
@@ -86,22 +93,43 @@ public class TwitterClient {
                 .setExtension(extension)
                 .build();
         HeaderPhoto headerPhoto = HeaderPhoto.newBuilder()
-                .setPhoto(mkfile)
                 .setUserId(user.getId())
+                .setPhoto(mkfile)
                 .build();
          blockingStub.submitHeaderPhoto(headerPhoto);
     }
 
-    public Iterator<Tweet>  getDailyBriefing(User user) throws StatusRuntimeException {
+    public void performSubmitProfilePhoto(File file, User user) throws IOException, StatusRuntimeException {
+        logger.info("performSubmitProfilePhoto() was called by the client.");
+
+        byte[] bytes = Files.readAllBytes(file.toPath());
+        String extension = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+        MKFile mkfile = MKFile.newBuilder()
+                .setBytes(ByteString.copyFrom(bytes))
+                .setExtension(extension)
+                .build();
+        ProfilePhoto profilePhoto = ProfilePhoto.newBuilder()
+                .setUserId(user.getId())
+                .setPhoto(mkfile)
+                .build();
+        blockingStub.submitProfilePhoto(profilePhoto);
+    }
+
+    public Iterator<Tweet> getDailyBriefing(User user) throws StatusRuntimeException {
         logger.info("getDailyBriefing() was called by the client.");
 
-        Iterator<Tweet> tweetIterator = null;
-        tweetIterator = blockingStub.getDailyBriefing(user);
-        return tweetIterator;
+        return blockingStub.getDailyBriefing(user);
+    }
+
+    public boolean performHasTweetPhoto(Tweet tweet) throws StatusRuntimeException {
+        logger.info("performHasTweetPhoto() was called by the client.");
+
+        return blockingStub.hasTweetPhoto(tweet).getValue();
     }
 
     public TweetPhoto retrieveTweetPhoto(Tweet tweet) throws StatusRuntimeException {
         logger.info("retrieveTweetPhoto() was called by the client.");
+
         final  Iterator<MKFile>  fileIterator ;
         TweetPhoto tweetPhoto = null;
         fileIterator = blockingStub.retrieveTweetPhotos(tweet);
@@ -121,13 +149,8 @@ public class TwitterClient {
         return userIterator.next();
     }
 
-    public ProfilePhoto performRetrieveProfilePhoto(User user) throws StatusRuntimeException {
-        logger.info("retrieveProfilePhoto() was called by the client.");
 
-        ProfilePhoto profilePhoto = null;
-        profilePhoto = blockingStub.retrieveProfilePhoto(user);
-        return profilePhoto;
-    }
+
     public int retrieveLikeCount(Tweet tweet) throws StatusRuntimeException {
         logger.info("retrieveNumberOfLike() was called by the client.");
 
@@ -135,6 +158,7 @@ public class TwitterClient {
         numberOfLike = blockingStub.retrieveLikeCount(tweet).getValue();
         return numberOfLike;
     }
+
     public int retrieveRetweetCount(Tweet tweet) throws StatusRuntimeException {
         logger.info("retrieveNumberOfRetweet() was called by the client.");
 
@@ -142,6 +166,7 @@ public class TwitterClient {
         numberOfRetweet = blockingStub.retrieveRetweetCount(tweet).getValue();
         return numberOfRetweet;
     }
+
     public int retrieveReplyCount(Tweet tweet) throws StatusRuntimeException {
         logger.info("retrieveNumberOfReply() was called by the client.");
 
@@ -159,6 +184,13 @@ public class TwitterClient {
        Tweet sentTweet =  blockingStub.sendTweet(newTweet);
        return sentTweet.getId();
     }
+
+    public User performUpdateProfileInfo(User user) throws StatusRuntimeException {
+        logger.info("performUpdateProfileInfo() was called by the client.");
+
+        return blockingStub.updateProfileInfo(user);
+    }
+
     public void uploadTweetPhoto(String path, int id) throws StatusRuntimeException {
         logger.info("sendTweetPhoto() was called by the client.");
         TweetPhoto tweetPhoto;
@@ -194,12 +226,12 @@ public class TwitterClient {
         return userIterator;
     }
 
+    public boolean hasProfilePhoto(User user) throws StatusRuntimeException {
+        logger.info("hasHeaderPhoto() was called by the client.");
 
-
-
-
-
-
-
-
+        return blockingStub.hasProfilePhoto(user).getValue();
+    }
+    public ProfilePhoto retrieveProfilePhoto(User user) {
+        return blockingStub.retrieveProfilePhoto(user);
+    }
 }

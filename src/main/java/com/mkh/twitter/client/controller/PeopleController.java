@@ -11,14 +11,10 @@ import java.util.Iterator;
 
 public class PeopleController extends AbstractController {
 
-    @FXML
-    private ScrollBar followersScrollBar;
+
 
     @FXML
     private VBox followersVbox;
-
-    @FXML
-    private ScrollBar followingScrollBar;
 
     @FXML
     private VBox followingsVbox;
@@ -46,13 +42,13 @@ public class PeopleController extends AbstractController {
         }
     }
     public void displayFollower(User user){
-        FollowerComponent followerComponent = new FollowerComponent(user,getClient().performRetrieveProfilePhoto(user));
+        FollowerComponent followerComponent = new FollowerComponent(user,getClient().retrieveProfilePhoto(user));
         System.out.println(user.getUsername());
         followersVbox.getChildren().add(followerComponent);
 
     }
     public void displayFollowee(User user){
-        FolloweeComponent followeeComponent = new FolloweeComponent(user,getClient().performRetrieveProfilePhoto(user));
+        FolloweeComponent followeeComponent = new FolloweeComponent(user,getClient().retrieveProfilePhoto(user));
         followingsVbox.getChildren().add(followeeComponent);
     }
 
