@@ -38,6 +38,7 @@ public abstract class AbstractPersonComponent  extends HBox {
         this.isFollowing = isFollowing;
         // create a circle to display the profile picture
         profilePicture = new Circle();
+
         byte[] bytes = profilePhoto.getPhoto().getBytes().toByteArray();
         Image image = new Image(new ByteArrayInputStream(bytes));
         profilePicture.setRadius(25);

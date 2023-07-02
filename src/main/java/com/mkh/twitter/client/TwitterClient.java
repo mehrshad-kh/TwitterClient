@@ -140,13 +140,12 @@ public class TwitterClient {
         return tweetPhoto;
     }
 
-    public User searchUser(String username) throws StatusRuntimeException {
+    public User searchUser(int id) throws StatusRuntimeException {
         logger.info("searchUser() was called by the client.");
 
-        Iterator<User> userIterator = null;
-        userIterator = blockingStub.searchUsers(MKString.newBuilder().setValue(username).build());
-        userIterator.hasNext();
-        return userIterator.next();
+       User userIterator = null;
+       userIterator = blockingStub.retrieveUser(MKInteger.newBuilder().setValue(id).build());
+       return userIterator;
     }
 
 

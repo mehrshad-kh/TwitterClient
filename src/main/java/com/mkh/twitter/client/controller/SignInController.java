@@ -80,7 +80,7 @@ public class SignInController extends AbstractController {
             MainController controller = loader.getController();
             controller.setClient(getClient());
             controller.setUser(signedInUser);
-            controller.getHomeToggleButton().fire();
+            //controller.getHomeToggleButton().fire();
             Scene scene = new Scene(root);
             Stage currentStage = findStage(createAccountLabel);
             currentStage.setScene(scene);

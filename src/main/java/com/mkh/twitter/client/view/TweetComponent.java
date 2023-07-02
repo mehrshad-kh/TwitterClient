@@ -35,6 +35,7 @@ public class TweetComponent extends AnchorPane {
     private ImageView retweetLabel;
     private ImageView quoteLabel;
     private ImageView likeLabel;
+    private ImageView dotLabel; // added a ImageView for the three dot icon
     private Button dotButton; // added a button for the three dot icon
     private HBox iconBox; // added a HBox to layout the icons and labels horizontally
 
@@ -50,11 +51,20 @@ public class TweetComponent extends AnchorPane {
         this.countOfView = new Label();
         this.countOfLikes = new Label();
         this.retweetLabel = new ImageView(retImage);
+        this.retweetLabel.setFitWidth(20);
+        this.retweetLabel.setFitHeight(20);
         this.quoteLabel = new ImageView(quoteImage);
+        this.quoteLabel.setFitHeight(20);
+        this.quoteLabel.setFitWidth(20);
         this.likeLabel = new ImageView(grayHeartImage);
-        this.dotButton = new Button("", new ImageView(dotImage)); // created a button with the three dot icon as graphic
+        this.likeLabel.setFitWidth(20);
+        this.likeLabel.setFitHeight(20);
+        this.dotLabel = new ImageView(dotImage); // created a ImageView for the three dot icon
+        this.dotLabel.setFitWidth(20);
+        this.dotLabel.setFitHeight(20);
+        this.dotButton = new Button("", dotLabel); // created a button with the three dot icon as graphic
         this.dotButton.setStyle("-fx-background-color: transparent;"); // removed the default button background
-        this.iconBox = new HBox(10); // created a HBox with 10 pixels of spacing
+        this.iconBox = new HBox(); // created a HBox with 10 pixels of spacing
         this.iconBox.getChildren().addAll(retweetLabel, countOfRet, likeLabel, countOfLikes, quoteLabel, countOfView); // added the icons and labels to the HBox
         this.getChildren().addAll(innerTweetComponent, iconBox, dotButton); // added the HBox and the button to the children
 
@@ -88,9 +98,9 @@ public class TweetComponent extends AnchorPane {
 
     public void setLocation() {
         // set the location of the components using AnchorPane constraints
-        AnchorPane.setTopAnchor(innerTweetComponent, 10.0);
-        AnchorPane.setLeftAnchor(innerTweetComponent, 10.0);
-        AnchorPane.setRightAnchor(innerTweetComponent, 10.0);
+        AnchorPane.setTopAnchor(innerTweetComponent, 0.0);
+        AnchorPane.setLeftAnchor(innerTweetComponent, 0.0);
+        AnchorPane.setRightAnchor(innerTweetComponent, 0.0);
 
         AnchorPane.setBottomAnchor(iconBox, 10.0); // set the bottom and left anchor for the HBox
         AnchorPane.setRightAnchor(iconBox, 10.0);

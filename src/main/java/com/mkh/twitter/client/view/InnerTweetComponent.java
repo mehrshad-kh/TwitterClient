@@ -14,6 +14,8 @@ import javafx.scene.paint.Color;
 import java.io.ByteArrayInputStream;
 import java.time.*;
 import java.time.format.*;
+import java.time.temporal.ChronoField;
+import java.util.Locale;
 
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.ImagePattern;
@@ -60,9 +62,9 @@ public class InnerTweetComponent extends AnchorPane {
         this.setBackground(new Background(new BackgroundFill(Color.web(BG_COLOR), new CornerRadii(10), Insets.EMPTY)));
         this.setBorder(new Border(new BorderStroke(Color.web("#E1E8ED"), BorderStrokeStyle.SOLID, new CornerRadii(10), BorderWidths.DEFAULT)));
 
-        AnchorPane.setTopAnchor(this, 10.0);
-        AnchorPane.setLeftAnchor(this, 10.0);
-        AnchorPane.setRightAnchor(this, 10.0);
+        AnchorPane.setTopAnchor(this, 0.0);
+        AnchorPane.setLeftAnchor(this, 0.0);
+        AnchorPane.setRightAnchor(this, 0.0);
 
         AnchorPane.setTopAnchor(name, 10.0);
         AnchorPane.setLeftAnchor(name, 60.0);
@@ -80,40 +82,40 @@ public class InnerTweetComponent extends AnchorPane {
         AnchorPane.setLeftAnchor(fullTweetContent, 60.0);
         AnchorPane.setRightAnchor(fullTweetContent, 10.0);
     }
-    public String timeDifference(Tweet tweet){
-
-        // Get the timestamp string
-        String timestampString;
-        timestampString = tweet.getDateCreated();
-
-
-        // Convert the timestamp string to a LocalDateTime object
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
-        LocalDateTime timestamp = LocalDateTime.parse(timestampString, formatter);
-
-        // Convert the LocalDateTime to a ZonedDateTime using the system default time zone
-        ZonedDateTime zonedTimestamp = ZonedDateTime.of(timestamp, ZoneId.systemDefault());
-
-        // Convert the ZonedDateTime to an Instant
-        Instant instantTimestamp = zonedTimestamp.toInstant();
-
-        // Get the current time in UTC as an Instant
-        Instant now = Instant.now();
-
-        // Calculate the duration between the two Instants
-        Duration duration = Duration.between(instantTimestamp, now);
-
-        // If the duration is less than an hour, print the duration in minutes
-        if (duration.toMinutes() < 60) {
-            return  duration.toMinutes() + " m ago" ;
-        }
-        // If the duration is less than a day, print the duration in hours
-        else if (duration.toHours() < 24) {
-            return duration.toHours() + " h ago";
-        }
-        // Otherwise, print the duration in days
-        else {
-            return duration.toDays() + " d ago";
-        }
+    public String timeDifference(Tweet tweet) {
+          return "1 h ago";
+//        // Get the timestamp string
+//        String timestampString = tweet.getDateCreated();
+//
+//        // Define the formatter with multiple patterns
+//        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+//                .append(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS"))
+//                .optionalStart()
+//                .appendFraction(ChronoField.MICRO_OF_SECOND, 1, 6, true)
+//                .optionalEnd()
+//                .toFormatter();
+//
+//        // Parse the timestamp string into a LocalDateTime object
+//        LocalDateTime timestamp = LocalDateTime.parse(timestampString, formatter);
+//
+//        // Get the current time as a LocalDateTime object
+//        LocalDateTime now = LocalDateTime.now();
+//
+//        // Calculate the duration between the two LocalDateTime objects
+//        Duration duration = Duration.between(timestamp, now);
+//
+//        // If the duration is less than an hour, print the duration in minutes
+//        if (duration.toMinutes() < 60) {
+//            return duration.toMinutes() + " m ago";
+//        }
+//        // If the duration is less than a day, print the duration in hours
+//        else if (duration.toHours() < 24) {
+//            return duration.toHours() + " h ago";
+//        }
+//        // Otherwise, print the duration in days
+//        else {
+//            return duration.toDays() + " d ago";
+//        }
+//    }
     }
 }

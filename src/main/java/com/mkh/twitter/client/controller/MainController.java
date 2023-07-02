@@ -1,12 +1,13 @@
 package com.mkh.twitter.client.controller;
 
-import com.mkh.Utility;
+import com.google.protobuf.ByteString;
+import com.mkh.twitter.MKFile;
+import com.mkh.twitter.ProfilePhoto;
 import com.mkh.twitter.Tweet;
-import com.mkh.twitter.client.TweetRetrievalTask;
+import com.mkh.twitter.User;
+import com.mkh.twitter.client.view.TweetComponent;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,8 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -22,6 +25,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
@@ -34,7 +38,12 @@ public class MainController extends AbstractController {
     // a constant for the image view size
     public static final int IMAGE_SIZE = 100;
 
-    private ObservableList<Tweet> tweets;
+
+    private VBox tweetsVbox;
+    private AnchorPane dailyBriefingAnchorPane;
+
+
+    private Iterator<Tweet> tweets;
     @FXML
     private ToggleButton homeToggleButton;
 
@@ -102,43 +111,47 @@ public class MainController extends AbstractController {
     }
 
     private void displayDailyBriefing() {
-        TweetRetrievalTask task = new TweetRetrievalTask(getClient(), getUser());
-        task.valueProperty().addListener(new ChangeListener<Iterator<Tweet>>() {
-            @Override
-            public void changed(ObservableValue<? extends Iterator<Tweet>> observableValue,
-                                Iterator<Tweet> oldValue,
-                                Iterator<Tweet> newValue) {
-                // System.out.println("changed() was called.");
-                // System.out.println("newValue.hasNext(): " + newValue.hasNext());
-                tweets = FXCollections.observableArrayList(Utility.Collections.convert(newValue));
-                // System.out.println("tweetIterator.hasNext(): " + tweets.hasNext());
-            }
-        });
-        Thread daemonThread = new Thread(task);
-        daemonThread.setDaemon(true);
-        daemonThread.start();
 
-        System.out.println("setUpDailyBriefing(), tweets.size(): " + tweets.size());
+        File fi = new File("C:\\Users\\amirsalar.abedini\\Desktop\\client\\TwitterClient\\src\\main\\resources\\images\\account.png");
+        byte[] fileContent = null  ;
+        try {
+            fileContent = Files.readAllBytes(fi.toPath());
+        } catch (Exception e ){
+            e.printStackTrace();
+        }
+        setUpVboxToShowDailyBrief();
+        tweets  = getClient().retrieveTweets(getUser());
+        while (tweets.hasNext()) {
+            Tweet tweet = tweets.next();
+            TweetComponent tweetComponent = new TweetComponent(getClient().searchUser(tweet.getSenderId()),
+                    getClient().hasProfilePhoto(User.newBuilder().setId(tweet.getSenderId()).build()) ?
+                            getClient().retrieveProfilePhoto(User.newBuilder().setId(tweet.getSenderId()).build()) :
+                            ProfilePhoto.newBuilder().setPhoto(MKFile.newBuilder().setBytes(ByteString.copyFrom(fileContent))).build(),
+                    tweet,
+                    getClient().performHasTweetPhoto(tweet) ?
+                            getClient().retrieveTweetPhoto(tweet) :
+                            null,
+                    getClient().retrieveRetweetCount(tweet),
+                    getClient().retrieveLikeCount(tweet),
+                    getClient().retrieveReplyCount(tweet));
 
-//        while (tweets.hasNext()) {
-//            Tweet tweet = tweets.next();
-//            TweetComponent tweetComponent = new TweetComponent(getClient().searchUser(Integer.toString(tweet.getSenderId())),
-//                    getClient().retrieveProfilePhoto(User.newBuilder().setId(tweet.getSenderId()).build()),
-//                    tweet,
-//                    getClient().retrieveTweetPhoto(tweet),
-//                    getClient().retrieveRetweetCount(tweet),
-//                    getClient().retrieveLikeCount(tweet),
-//                    getClient().retrieveReplyCount(tweet));
-//            System.out.println("salam");
-//            rightVbox.getChildren().add(tweetComponent);
-//
-//        }
+            tweetComponent.setMinWidth(Region.USE_COMPUTED_SIZE);
+            tweetComponent.setPrefWidth(Region.USE_COMPUTED_SIZE);
+            tweetComponent.setMaxWidth(Region.USE_COMPUTED_SIZE);
+            tweetComponent.setMinHeight(Region.USE_COMPUTED_SIZE);
+            tweetComponent.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            tweetComponent.setMaxHeight(Region.USE_COMPUTED_SIZE);
+
+            VBox.setVgrow(tweetComponent, Priority.ALWAYS);
+            tweetsVbox.getChildren().add(tweetComponent);
+
+        }
     }
 
     @FXML
     private void homeButtonActioned(ActionEvent event) {
         anchorPane.getChildren().clear();
-        // displayDailyBriefing();
+        displayDailyBriefing();
     }
 
     @FXML
@@ -257,5 +270,41 @@ public class MainController extends AbstractController {
         newStage.setScene(newScene);
         newStage.show();
     }
+    private void setUpVboxToShowDailyBrief(){
+        tweetsVbox = new VBox();
+        // tweetsVbox.setSpacing(10);
+        // tweetsVbox.setPadding(new Insets(10, 10, 10, 10));
+        // tweetsVbox.setAlignment(Pos.CENTER);
+        // tweetsVbox.setStyle("-fx-background-color: #1DA1F2");
+        tweetsVbox.setMinWidth(600);
+        tweetsVbox.setMaxWidth(600);
+        tweetsVbox.setPrefWidth(600);
+        tweetsVbox.setPrefHeight(Region.USE_COMPUTED_SIZE);
+        tweetsVbox.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        setUpAnchorPaneToShowDailyBrief();
+        // add the vertical box to the anchor pane
+        // Possible problems.
+        dailyBriefingAnchorPane.getChildren().add(tweetsVbox);
+    }
+    private void setUpAnchorPaneToShowDailyBrief(){
+        dailyBriefingAnchorPane = new AnchorPane();
+        // anchorPaneToShowDailyBrief.setPrefSize(800, 600);
+        // anchorPaneToShowDailyBrief.setPadding(new Insets(10, 10, 10, 10));
+        dailyBriefingAnchorPane.setStyle("-fx-background-color: #1DA1F2");
+        AnchorPane.setTopAnchor(tweetsVbox, 100.0);
+        AnchorPane.setBottomAnchor(tweetsVbox, 100.0);
+        AnchorPane.setLeftAnchor(tweetsVbox, 100.0);
+        AnchorPane.setRightAnchor(tweetsVbox, 100.0);
+        dailyBriefingAnchorPane.setMinWidth(Region.USE_COMPUTED_SIZE);
+        dailyBriefingAnchorPane.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        dailyBriefingAnchorPane.setPrefWidth(Region.USE_COMPUTED_SIZE);
+        dailyBriefingAnchorPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
+        dailyBriefingAnchorPane.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        dailyBriefingAnchorPane.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        anchorPane.getChildren().clear();
 
+        //  add the anchor pane to the main anchor pane
+        anchorPane.getChildren().add(dailyBriefingAnchorPane);
+        // anchorPane.getChildren().setAll(anchorPaneToShowDailyBrief.getChildren());
+    }
 }
