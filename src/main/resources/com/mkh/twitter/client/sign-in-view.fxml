@@ -8,25 +8,33 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="20.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mkh.twitter.client.controller.SignInController">
+<VBox spacing="20.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mkh.twitter.client.controller.SignInController">
    <children>
-      <Label alignment="CENTER" text="Welcome to Twitter!" textFill="#57b4fc" VBox.vgrow="ALWAYS">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
-      </Label>
+      <VBox alignment="CENTER" VBox.vgrow="ALWAYS">
+         <children>
+            <Label alignment="CENTER" text="Welcome to Twitter!" textFill="#57b4fc" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </Label>
+         </children>
+      </VBox>
       <VBox VBox.vgrow="ALWAYS">
          <children>
             <TextField fx:id="usernameTextField" promptText="Username" VBox.vgrow="ALWAYS" />
-            <PasswordField fx:id="passwordField" promptText="Password" />
+            <PasswordField fx:id="passwordField" promptText="Password" VBox.vgrow="ALWAYS" />
             <Label fx:id="usernamePasswordErrorLabel" text="Your username or password is incorrect. Please try again." textFill="#e40606" visible="false" VBox.vgrow="ALWAYS" />
          </children>
       </VBox>
-      <Button fx:id="signInButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#signInButtonActioned" text="Sign in" VBox.vgrow="ALWAYS" />
-      <Label fx:id="createAccountLabel" onMouseClicked="#createAccountLabelClicked" text="Don't have an account? Create one." textFill="#367aae" VBox.vgrow="ALWAYS" />
+      <VBox VBox.vgrow="ALWAYS">
+         <children>
+            <Button fx:id="signInButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#signInButtonActioned" text="Sign in" />
+            <Label fx:id="createAccountLabel" onMouseClicked="#createAccountLabelClicked" text="Don't have an account? Create one." textFill="#367aae" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
