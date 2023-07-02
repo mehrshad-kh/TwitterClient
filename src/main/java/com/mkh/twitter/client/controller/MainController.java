@@ -10,13 +10,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TextField;
-import javafx.scene.effect.Lighting;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -41,7 +36,7 @@ public class MainController extends AbstractController {
 
     private ObservableList<Tweet> tweets;
     @FXML
-    private Button homeButton;
+    private ToggleButton homeToggleButton;
 
     @FXML
     private VBox leftVbox;
@@ -50,17 +45,17 @@ public class MainController extends AbstractController {
     private Button newButton;
 
     @FXML
-    private Button peopleButton;
+    private ToggleButton peopleToggleButton;
     @FXML
-    private Button profileButton;
+    private ToggleButton profileToggleButton;
 
     @FXML private AnchorPane anchorPane;
 
     @FXML
     private SplitPane splitPane;
 
-    public Button getHomeButton() {
-        return homeButton;
+    public ToggleButton getHomeToggleButton() {
+        return homeToggleButton;
     }
 
     public void initialize() {
@@ -80,15 +75,15 @@ public class MainController extends AbstractController {
     }
 
     private void initializeButtons() {
-        initializeHomeButton();
+        initializeHomeToggleButton();
         initializeNewButton();
-        initializePeopleButton();
-        initializeProfileButton();
+        initializePeopleToggleButton();
+        initializeProfileToggleButton();
     }
 
-    private void initializeHomeButton() {
-        homeButton.prefWidthProperty().bind(leftVbox.widthProperty());
-        homeButton.prefHeightProperty().bind(leftVbox.widthProperty());
+    private void initializeHomeToggleButton() {
+        homeToggleButton.prefWidthProperty().bind(leftVbox.widthProperty());
+        homeToggleButton.prefHeightProperty().bind(leftVbox.widthProperty());
     }
 
     private void initializeNewButton() {
@@ -96,14 +91,14 @@ public class MainController extends AbstractController {
         newButton.prefHeightProperty().bind(leftVbox.widthProperty());
     }
 
-    private void initializePeopleButton() {
-        peopleButton.prefWidthProperty().bind(leftVbox.widthProperty());
-        peopleButton.prefHeightProperty().bind(leftVbox.widthProperty());
+    private void initializePeopleToggleButton() {
+        peopleToggleButton.prefWidthProperty().bind(leftVbox.widthProperty());
+        peopleToggleButton.prefHeightProperty().bind(leftVbox.widthProperty());
     }
 
-    private void initializeProfileButton() {
-        profileButton.prefWidthProperty().bind(leftVbox.widthProperty());
-        profileButton.prefHeightProperty().bind(leftVbox.widthProperty());
+    private void initializeProfileToggleButton() {
+        profileToggleButton.prefWidthProperty().bind(leftVbox.widthProperty());
+        profileToggleButton.prefHeightProperty().bind(leftVbox.widthProperty());
     }
 
     private void displayDailyBriefing() {
@@ -124,7 +119,7 @@ public class MainController extends AbstractController {
         daemonThread.start();
 
         System.out.println("setUpDailyBriefing(), tweets.size(): " + tweets.size());
-//
+
 //        while (tweets.hasNext()) {
 //            Tweet tweet = tweets.next();
 //            TweetComponent tweetComponent = new TweetComponent(getClient().searchUser(Integer.toString(tweet.getSenderId())),
@@ -138,26 +133,21 @@ public class MainController extends AbstractController {
 //            rightVbox.getChildren().add(tweetComponent);
 //
 //        }
-
     }
 
     @FXML
     private void homeButtonActioned(ActionEvent event) {
-        setAndResetEffectsForButtons((Button) event.getSource());
         anchorPane.getChildren().clear();
         // displayDailyBriefing();
     }
 
     @FXML
     private void newButtonActioned(ActionEvent event) {
-        setAndResetEffectsForButtons((Button) event.getSource());
         setUpSendTweet();
     }
 
     @FXML
     private void peopleButtonActioned(ActionEvent event) {
-        setAndResetEffectsForButtons((Button) event.getSource());
-
         AnchorPane peopleAnchorPane;
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(ProfileController.class.getResource("/com/mkh/twitter/client/people-view.fxml")));
         try {
@@ -176,8 +166,6 @@ public class MainController extends AbstractController {
 
     @FXML
     private void profileButtonActioned(ActionEvent event) {
-        setAndResetEffectsForButtons((Button) event.getSource());
-
         AnchorPane profileAnchorPane;
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(SignInController.class.getResource("/com/mkh/twitter/client/profile-view.fxml")));
         try {
@@ -194,22 +182,6 @@ public class MainController extends AbstractController {
         anchorPane.getChildren().setAll(profileAnchorPane.getChildren());
     }
 
-    private void setAndResetEffectsForButtons(Button button) {
-        resetEffectsForAllButtons();
-        setEffect(button);
-    }
-
-    private void setEffect(Button button) {
-        button.setEffect(new Lighting());
-    }
-
-    private void resetEffectsForAllButtons() {
-        for (Node node: leftVbox.getChildren()) {
-            if (node instanceof Button button) {
-                button.setEffect(null);
-            }
-        }
-    }
     public void setUpSendTweet(){
         // create a new stage
         Stage newStage = new Stage();

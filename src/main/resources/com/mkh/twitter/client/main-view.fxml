@@ -3,6 +3,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
@@ -10,9 +12,13 @@
   <items>
       <VBox fx:id="leftVbox">
          <children>
-            <Button fx:id="profileButton" mnemonicParsing="false" onAction="#profileButtonActioned" text="Profile" VBox.vgrow="ALWAYS" />
-            <Button fx:id="homeButton" mnemonicParsing="false" onAction="#homeButtonActioned" text="Home" VBox.vgrow="ALWAYS" />
-            <Button fx:id="peopleButton" mnemonicParsing="false" onAction="#peopleButtonActioned" text="People" VBox.vgrow="ALWAYS" />
+            <ToggleButton fx:id="profileToggleButton" mnemonicParsing="false" onAction="#profileButtonActioned" text="Profle">
+               <toggleGroup>
+                  <ToggleGroup fx:id="toggleGroup" />
+               </toggleGroup>
+            </ToggleButton>
+            <ToggleButton fx:id="homeToggleButton" mnemonicParsing="false" onAction="#homeButtonActioned" text="Home" toggleGroup="$toggleGroup" />
+            <ToggleButton fx:id="peopleToggleButton" mnemonicParsing="false" onAction="#peopleButtonActioned" text="People" toggleGroup="$toggleGroup" />
             <Separator orientation="VERTICAL" VBox.vgrow="ALWAYS" />
             <Button fx:id="newButton" mnemonicParsing="false" onAction="#newButtonActioned" text="New" VBox.vgrow="ALWAYS" />
          </children>
