@@ -144,12 +144,12 @@ public class MainController extends AbstractController {
     @FXML
     private void homeButtonActioned(ActionEvent event) {
         setAndResetEffectsForButtons((Button) event.getSource());
+        anchorPane.getChildren().clear();
         // displayDailyBriefing();
     }
 
     @FXML
     private void newButtonActioned(ActionEvent event) {
-
         setAndResetEffectsForButtons((Button) event.getSource());
         setUpSendTweet();
     }
@@ -157,6 +157,21 @@ public class MainController extends AbstractController {
     @FXML
     private void peopleButtonActioned(ActionEvent event) {
         setAndResetEffectsForButtons((Button) event.getSource());
+
+        AnchorPane peopleAnchorPane;
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(ProfileController.class.getResource("/com/mkh/twitter/client/people-view.fxml")));
+        try {
+            peopleAnchorPane = loader.load();
+        } catch (IOException e) {
+            AbstractController.displayAlert(e);
+            return;
+        }
+        PeopleController controller = loader.getController();
+        controller.setClient(getClient());
+        controller.setUser(getUser());
+        controller.setUp();
+        anchorPane.getChildren().clear();
+        anchorPane.getChildren().setAll(peopleAnchorPane.getChildren());
     }
 
     @FXML
@@ -166,7 +181,7 @@ public class MainController extends AbstractController {
         AnchorPane profileAnchorPane;
         FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(SignInController.class.getResource("/com/mkh/twitter/client/profile-view.fxml")));
         try {
-            profileAnchorPane = (AnchorPane) loader.load();
+            profileAnchorPane = loader.load();
         } catch (IOException e) {
             AbstractController.displayAlert(e);
             return;
